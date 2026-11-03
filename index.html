@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOMOREBI // Minimal Lofi Radio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #f59e0b;
+      --bg-deep: #080a0f;
+    }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-deep);
+      color: #f1f5f9;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #f8fafc;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    .player-shell {
+      background: rgba(15, 18, 28, 0.78);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75);
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 1; }
+    }
+    .live-dot {
+      animation: breathe 2.2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="p-4 sm:p-6">
+
+  <!-- Soft Ambient Mood Glow -->
+  <div id="ambientBackdrop" class="fixed inset-0 pointer-events-none transition-all duration-1000 opacity-35"
+       style="background: radial-gradient(circle at 50% 35%, rgba(245, 158, 11, 0.22), transparent 65%);">
+  </div>
+
+  <!-- Minimal Centered Lofi Player Card -->
+  <main class="relative z-10 w-full max-w-md player-shell rounded-3xl overflow-hidden transition-all duration-500">
+
+    <!-- Visual Scene & Vinyl Artwork Canvas -->
+    <div class="relative h-72 w-full bg-[#06080d] overflow-hidden">
+      <canvas id="sceneCanvas" class="w-full h-full block"></canvas>
+
+      <!-- Subtle Top Pill: Status & Mood World -->
+      <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-mono-code tracking-wide bg-black/50 backdrop-blur-md border border-white/10 text-slate-300">
+          <span id="statusDot" class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+          <span id="statusText">PAUSED</span>
+        </span>
+
+        <span id="archetypeBadge" class="px-3 py-1 rounded-full text-[11px] font-medium bg-black/50 backdrop-blur-md border border-white/10 text-amber-300">
+          Tokyo Jazzhop
+        </span>
+      </div>
+
+      <!-- Subtle Bottom Chord, Section & Time Indicator -->
+      <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between pointer-events-none text-[11px] font-mono-code text-slate-300/90">
+        <span id="songMetaLabel" class="px-2.5 py-0.5 rounded-md bg-black/45 backdrop-blur-sm border border-white/5">
+          Eb Dorian • 78 BPM
+        </span>
+        <div class="flex items-center gap-1.5">
+          <span id="activeChordBadge" class="px-2.5 py-0.5 rounded-md bg-black/45 backdrop-blur-sm border border-white/5 text-amber-200">
+            Ebm9
+          </span>
+          <span id="songTimeLabel" class="px-2.5 py-0.5 rounded-md bg-black/45 backdrop-blur-sm border border-white/5 text-slate-300">
+            0:00 / 2:30
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Song Timeline Progress Bar (Click to seek across the 2–3 min song) -->
+    <div id="timelineSeekBar" class="w-full h-2 bg-white/5 overflow-hidden cursor-pointer group relative" title="Click to jump to any part of the song">
+      <div id="barProgressFill" class="h-full transition-all duration-150" style="width: 0%; background: var(--accent);"></div>
+    </div>
+
+    <!-- Minimal Track Info & Simple Controls -->
+    <div class="p-6 flex flex-col gap-6">
+
+      <!-- Track Title & Subtitle -->
+      <div class="text-center">
+        <h1 id="songTitleLabel" class="font-display text-xl sm:text-2xl font-semibold text-white tracking-tight truncate">
+          Midnight in Shimokitazawa
+        </h1>
+        <p id="songInstrumentLabel" class="text-xs text-slate-400 mt-1 truncate">
+          Vintage Rhodes · Muted Horn · Heavy SP-404 Drums
+        </p>
+      </div>
+
+      <!-- Core Minimal Controls: Play/Pause & Next Random Song -->
+      <div class="flex items-center justify-center gap-4">
+        <!-- Play / Pause Primary Button -->
+        <button id="playPauseBtn"
+                class="h-14 px-8 rounded-2xl font-display font-semibold text-sm flex items-center justify-center gap-2.5 shadow-lg transition transform active:scale-95 bg-white text-slate-950 hover:bg-slate-100"
+                aria-label="Play or Pause">
+          <svg id="playIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          <svg id="pauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+          </svg>
+          <span id="playBtnText">Play</span>
+        </button>
+
+        <!-- Next / New Random Track Button -->
+        <button id="randomizeBtn"
+                class="h-14 px-5 rounded-2xl font-display font-medium text-sm flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white border border-white/10 transition transform active:scale-95"
+                title="Generate a brand-new 2–3 minute lofi song">
+          <svg class="w-4 h-4 text-slate-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+          </svg>
+          <span>Next Song</span>
+        </button>
+      </div>
+
+      <!-- Simple Volume Bar -->
+      <div class="flex items-center gap-3 px-2 pt-1">
+        <button id="muteToggleBtn" class="text-slate-400 hover:text-white transition p-1" title="Mute or Unmute">
+          <svg id="volIconOn" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+          <svg id="volIconMuted" class="w-4 h-4 hidden text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+        </button>
+        <input id="masterVolumeSlider" type="range" min="0" max="100" value="70" aria-label="Volume" />
+        <span id="masterVolumeLabel" class="text-[11px] font-mono-code text-slate-400 w-8 text-right">70%</span>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    /*************************************************************************
+     * KOMOREBI // 2–3 MINUTE MULTI-SECTION LOFI ENGINE + HEAVY SP-404 DRUMS
+     *
+     * Key Architectural Features:
+     * 1. Long-Form 2:10–3:05 Compositions (48 to 64 bars per song):
+     *    - 8 evolving musical sections:
+     *      INTRO -> VERSE I -> CHORUS I -> BRIDGE (Harmonic Shift) ->
+     *      HEAVY POCKET VERSE II -> BREAKDOWN -> FINAL CLIMAX CHORUS -> OUTRO
+     *    - Two distinct 4-bar chord progressions per song (Main A & Bridge B)
+     *    - Three distinct melodic themes (Verse Call/Response, Chorus High Hook,
+     *      Bridge Solo Improvisation) + Secondary Counter-Melody Duet
+     * 2. Heavy Lofi Kicks & Drums with Real Sidechain Compression Pump:
+     *    - Punchy sub-thump + beater transient kicks with low-end warmth
+     *    - Authentic SP-404 sidechain ducking on the chord/music bus so heavy
+     *      kicks punch deep through the mix with zero clipping or distortion!
+     *************************************************************************/
+
+    function createPRNG(seedInt) {
+      let a = seedInt >>> 0;
+      return function() {
+        let t = (a += 0x6D2B79F5);
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function randomSeedInt() {
+      return Math.floor(Math.random() * 0xFFFFFF) >>> 0;
+    }
+
+    function formatTimeSec(sec) {
+      const s = Math.max(0, Math.floor(sec));
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${m}:${rem < 10 ? '0' : ''}${rem}`;
+    }
+
+    const NOTE_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+
+    const SCALES = {
+      dorian:     { name: 'Dorian',     pentatonic: [0, 3, 5, 7, 10], full: [0, 2, 3, 5, 7, 9, 10] },
+      major:      { name: 'Major',      pentatonic: [0, 2, 4, 7, 9],  full: [0, 2, 4, 5, 7, 9, 11] },
+      aeolian:    { name: 'Minor',      pentatonic: [0, 3, 5, 7, 10], full: [0, 2, 3, 5, 7, 8, 10] },
+      lydian:     { name: 'Lydian',     pentatonic: [0, 2, 4, 7, 9],  full: [0, 2, 4, 6, 7, 9, 11] },
+      mixolydian: { name: 'Mixolydian', pentatonic: [0, 2, 4, 7, 10], full: [0, 2, 4, 5, 7, 9, 10] }
+    };
+
+    const CHORD_VOICINGS = {
+      maj9:    { suffix: 'maj9',  offsets: [0, 4, 7, 11, 14] },
+      maj7:    { suffix: 'maj7',  offsets: [0, 4, 7, 11, 16] },
+      m9:      { suffix: 'm9',    offsets: [0, 3, 7, 10, 14] },
+      m11:     { suffix: 'm11',   offsets: [0, 3, 7, 10, 14] },
+      m7:      { suffix: 'm7',    offsets: [0, 3, 7, 10, 15] },
+      m6:      { suffix: 'm6',    offsets: [0, 3, 7, 9, 14] },
+      dom13:   { suffix: '13',    offsets: [0, 4, 7, 10, 14] },
+      dom9sus: { suffix: '9sus4', offsets: [0, 5, 7, 10, 14] },
+      add9:    { suffix: 'add9',  offsets: [0, 4, 7, 14, 16] }
+    };
+
+    // Each entry includes a Main Progression (chordsA) AND a contrasting Bridge Progression (chordsB)
+    const PROGRESSIONS = [
+      {
+        scale: 'major',
+        chordsA: [
+          { deg: 2, type: 'm9' },
+          { deg: 7, type: 'dom13' },
+          { deg: 0, type: 'maj9' },
+          { deg: 9, type: 'm7' }
+        ],
+        chordsB: [
+          { deg: 5, type: 'maj9' },
+          { deg: 4, type: 'm7' },
+          { deg: 2, type: 'm9' },
+          { deg: 7, type: 'dom9sus' }
+        ]
+      },
+      {
+        scale: 'lydian',
+        chordsA: [
+          { deg: 5, type: 'maj9' },
+          { deg: 4, type: 'm7' },
+          { deg: 2, type: 'm9' },
+          { deg: 0, type: 'maj9' }
+        ],
+        chordsB: [
+          { deg: 9, type: 'm9' },
+          { deg: 4, type: 'm7' },
+          { deg: 5, type: 'maj7' },
+          { deg: 2, type: 'dom13' }
+        ]
+      },
+      {
+        scale: 'dorian',
+        chordsA: [
+          { deg: 0, type: 'm9' },
+          { deg: 5, type: 'dom13' },
+          { deg: 3, type: 'maj9' },
+          { deg: 10, type: 'maj7' }
+        ],
+        chordsB: [
+          { deg: 3, type: 'maj9' },
+          { deg: 10, type: 'dom13' },
+          { deg: 0, type: 'm11' },
+          { deg: 5, type: 'm6' }
+        ]
+      },
+      {
+        scale: 'major',
+        chordsA: [
+          { deg: 5, type: 'maj9' },
+          { deg: 5, type: 'm6' },
+          { deg: 4, type: 'm9' },
+          { deg: 9, type: 'm9' }
+        ],
+        chordsB: [
+          { deg: 2, type: 'm9' },
+          { deg: 4, type: 'm7' },
+          { deg: 5, type: 'maj9' },
+          { deg: 7, type: 'dom9sus' }
+        ]
+      },
+      {
+        scale: 'aeolian',
+        chordsA: [
+          { deg: 0, type: 'm9' },
+          { deg: 8, type: 'maj9' },
+          { deg: 5, type: 'm9' },
+          { deg: 10, type: 'dom9sus' }
+        ],
+        chordsB: [
+          { deg: 5, type: 'm9' },
+          { deg: 10, type: 'dom13' },
+          { deg: 3, type: 'maj9' },
+          { deg: 8, type: 'maj7' }
+        ]
+      },
+      {
+        scale: 'major',
+        chordsA: [
+          { deg: 0, type: 'maj9' },
+          { deg: 7, type: 'dom9sus' },
+          { deg: 9, type: 'm9' },
+          { deg: 5, type: 'maj7' }
+        ],
+        chordsB: [
+          { deg: 4, type: 'm7' },
+          { deg: 9, type: 'm9' },
+          { deg: 2, type: 'm9' },
+          { deg: 7, type: 'dom13' }
+        ]
+      },
+      {
+        scale: 'mixolydian',
+        chordsA: [
+          { deg: 0, type: 'maj9' },
+          { deg: 10, type: 'maj9' },
+          { deg: 5, type: 'maj7' },
+          { deg: 5, type: 'm6' }
+        ],
+        chordsB: [
+          { deg: 9, type: 'm9' },
+          { deg: 5, type: 'maj9' },
+          { deg: 10, type: 'maj7' },
+          { deg: 7, type: 'dom9sus' }
+        ]
+      },
+      {
+        scale: 'dorian',
+        chordsA: [
+          { deg: 0, type: 'm11' },
+          { deg: 10, type: 'dom13' },
+          { deg: 3, type: 'maj9' },
+          { deg: 8, type: 'maj7' }
+        ],
+        chordsB: [
+          { deg: 5, type: 'm9' },
+          { deg: 0, type: 'm9' },
+          { deg: 3, type: 'maj9' },
+          { deg: 10, type: 'dom9sus' }
+        ]
+      }
+    ];
+
+    // 8 Distinct Archetypes — including dedicated Heavy Boom-Bap / SP-404 Knockers & Chillhop Worlds
+    const ARCHETYPES = [
+      {
+        id: 'jazzhop',
+        name: 'Shibuya SP-404 Boom-Bap',
+        bpmRange: [76, 86],
+        swingRange: [0.59, 0.65],
+        progIndices: [2, 7, 0],
+        chordInsts: ['rhodes', 'feltPiano'],
+        leadInsts: ['softHorn', 'jazzGuitar'],
+        drumKits: ['heavySp404', 'heavyBoombap'],
+        drumWeight: 'heavy', // Heavy sub kick + strong sidechain pump + crisp snare
+        bassStyles: ['syncopated', 'walking'],
+        palette: { accent: '#f59e0b', secondary: '#ef4444', skyTop: '#0b0914', skyBot: '#24142c' },
+        titleA: ['Late Night Beat Tape:', 'SP-404 Session in', 'Crate Digging at', 'Heavy Pocket in'],
+        titleB: ['Shibuya', 'Shimokitazawa', 'Record Alley', '3:00 AM']
+      },
+      {
+        id: 'sunday',
+        name: 'Brooklyn Dusty Knock',
+        bpmRange: [80, 88],
+        swingRange: [0.60, 0.66],
+        progIndices: [0, 3, 7],
+        chordInsts: ['rhodes', 'warmSynth'],
+        leadInsts: ['jazzGuitar', 'vibraphone'],
+        drumKits: ['heavyBoombap', 'heavySp404'],
+        drumWeight: 'heavy',
+        bassStyles: ['melodicBounce', 'syncopated'],
+        palette: { accent: '#fb923c', secondary: '#6366f1', skyTop: '#100b14', skyBot: '#291a2e' },
+        titleA: ['DustyMPC on', 'Rooftop Cypher:', 'Subway Rhythm to', 'Vinyl Knock at'],
+        titleB: ['Bed-Stuy Ave', 'Williamsburg', 'Flatbush', 'Midnight Lab']
+      },
+      {
+        id: 'starlight',
+        name: 'Tokyo Midnight Jazzhop',
+        bpmRange: [72, 82],
+        swingRange: [0.57, 0.63],
+        progIndices: [0, 2, 5],
+        chordInsts: ['feltPiano', 'rhodes'],
+        leadInsts: ['softHorn', 'vibraphone'],
+        drumKits: ['punchyChillhop', 'heavySp404'],
+        drumWeight: 'medium-heavy',
+        bassStyles: ['walking', 'syncopated'],
+        palette: { accent: '#38bdf8', secondary: '#818cf8', skyTop: '#070c18', skyBot: '#18223d' },
+        titleA: ['Midnight in', 'Last Train to', 'Neon Rain in', 'Blue Note'],
+        titleB: ['Kichijoji', 'Daikanyama', 'Shinjuku', 'After Hours']
+      },
+      {
+        id: 'cassette',
+        name: 'Cassette Tape Knock ’97',
+        bpmRange: [78, 86],
+        swingRange: [0.56, 0.62],
+        progIndices: [6, 3, 1],
+        chordInsts: ['warmSynth', 'rhodes'],
+        leadInsts: ['sineLead', 'jazzGuitar'],
+        drumKits: ['heavySp404', 'punchyChillhop'],
+        drumWeight: 'heavy',
+        bassStyles: ['syncopated', 'melodicBounce'],
+        palette: { accent: '#ec4899', secondary: '#a855f7', skyTop: '#14081c', skyBot: '#2d143b' },
+        titleA: ['Walkman Bounce:', 'Side B Knock in', 'Summer of ’97', 'Warped Cassette:'],
+        titleB: ['Ocean Drive', 'Skatepark', 'Bedroom Studio', 'Golden Hour']
+      },
+      {
+        id: 'seoul',
+        name: 'Seoul Coffee & Beats',
+        bpmRange: [70, 78],
+        swingRange: [0.55, 0.61],
+        progIndices: [5, 1, 0],
+        chordInsts: ['nylonGuitar', 'feltPiano'],
+        leadInsts: ['woodenFlute', 'jazzGuitar'],
+        drumKits: ['punchyChillhop', 'brushGroove'],
+        drumWeight: 'medium-heavy',
+        bassStyles: ['melodicBounce', 'walking'],
+        palette: { accent: '#eab308', secondary: '#f97316', skyTop: '#14100b', skyBot: '#2b1f14' },
+        titleA: ['Warm Espresso in', 'Window Seat at', 'Rainy Afternoon in', 'Vinyl & Coffee:'],
+        titleB: ['Hongdae', 'Ikseon-dong', 'Han River', 'Yeonnam']
+      },
+      {
+        id: 'kyoto',
+        name: 'Kyoto Lantern Chill',
+        bpmRange: [64, 72],
+        swingRange: [0.54, 0.59],
+        progIndices: [4, 1, 2],
+        chordInsts: ['feltPiano', 'warmPad'],
+        leadInsts: ['kotoPluck', 'musicBox'],
+        drumKits: ['brushGroove', 'punchyChillhop'],
+        drumWeight: 'cozy',
+        bassStyles: ['deepSub', 'halfTime'],
+        palette: { accent: '#10b981', secondary: '#0ea5e9', skyTop: '#061217', skyBot: '#12292e' },
+        titleA: ['Rain Over', 'Moss Garden in', 'Paper Lanterns at', 'Mist Above'],
+        titleB: ['Arashiyama', 'Gion', 'Kamo River', 'Nanzen-ji']
+      }
+    ];
+
+    const INST_NAMES = {
+      rhodes: 'Vintage Rhodes',
+      feltPiano: 'Felt Piano',
+      warmSynth: 'Analog Tape Pad',
+      nylonGuitar: 'Nylon Guitar',
+      warmPad: 'Lush Silk Pad',
+      vibraphone: 'Vibraphone',
+      softHorn: 'Muted Jazz Horn',
+      musicBox: 'Kalimba Bell',
+      woodenFlute: 'Wooden Flute',
+      kotoPluck: 'Koto Pluck',
+      sineLead: 'Portamento Lead',
+      jazzGuitar: 'Jazz Guitar',
+      heavySp404: 'Heavy SP-404 Drums',
+      heavyBoombap: '90s Boom-Bap Knock',
+      punchyChillhop: 'Punchy Chillhop Kit',
+      brushGroove: 'Warm Rim & Kick Kit'
+    };
+
+    let lastArchIdx = -1;
+    let lastRootKey = -1;
+
+    function voiceChordSet(chordDefs, rootKey, highVoicing = false) {
+      return chordDefs.map((c) => {
+        const pc = (rootKey + c.deg) % 12;
+        const name = NOTE_NAMES[pc] + CHORD_VOICINGS[c.type].suffix;
+        const offsets = CHORD_VOICINGS[c.type].offsets;
+
+        let bassMidi = 36 + pc;
+        if (bassMidi < 39) bassMidi += 12;
+
+        const midiNotes = offsets.map((off, i) => {
+          let n = 48 + pc + off + (highVoicing && i >= 2 ? 12 : 0);
+          if (i === 0 && n > 60) n -= 12;
+          while (n < 53) n += 12;
+          while (n > (highVoicing ? 79 : 74)) n -= 12;
+          return n;
+        }).sort((a, b) => a - b);
+
+        return { name, bassMidi, midiNotes };
+      });
+    }
+
+    function composeMelodyPhrase(rand, pool, density, octaveBoost = 0) {
+      const steps = new Array(64).fill(null);
+      let cursor = Math.floor(pool.length * (0.35 + rand() * 0.3));
+
+      // Bar 1 & Bar 3 Call Motif
+      const motif = [];
+      for (let s = 0; s < 16; s++) {
+        const prob = (s % 4 === 0) ? density * 1.15 : (s % 2 === 1 ? density * 0.85 : density * 0.55);
+        if (rand() < prob) {
+          motif.push(s);
+          if (rand() < 0.68) s++;
+        }
+      }
+
+      motif.forEach(s => {
+        cursor = Math.max(0, Math.min(pool.length - 1, cursor + (Math.floor(rand() * 3) - 1)));
+        let midi = pool[cursor] + octaveBoost;
+        if (midi > 83) midi -= 12;
+        const dur = rand() < 0.45 ? 3 : 2;
+        steps[s] = { midi, durSteps: dur, vel: 0.72 + rand() * 0.22, slide: rand() < 0.25 };
+
+        const shift = rand() < 0.45 ? 1 : -1;
+        const nextIdx = Math.max(0, Math.min(pool.length - 1, cursor + shift));
+        let midi3 = pool[nextIdx] + octaveBoost;
+        if (midi3 > 83) midi3 -= 12;
+        steps[32 + s] = { midi: midi3, durSteps: dur, vel: 0.75 + rand() * 0.2, slide: rand() < 0.25 };
+      });
+
+      // Bar 2 & Bar 4 Answering Phrase
+      for (let bar of [1, 3]) {
+        const base = bar * 16;
+        for (let s = 0; s < 14; s++) {
+          if (rand() < density * 0.85) {
+            const move = (bar === 3 && s >= 10) ? -1 : (Math.floor(rand() * 5) - 2);
+            cursor = Math.max(0, Math.min(pool.length - 1, cursor + move));
+            let midi = pool[cursor] + octaveBoost;
+            if (midi > 83) midi -= 12;
+            steps[base + s] = {
+              midi,
+              durSteps: s >= 10 ? 4 : 2,
+              vel: 0.68 + rand() * 0.24,
+              slide: rand() < 0.2
+            };
+            s += (rand() < 0.6 ? 2 : 1);
+          }
+        }
+      }
+      return steps;
+    }
+
+    function generateNewSong() {
+      const rand = createPRNG(randomSeedInt());
+
+      // Pick a distinct Archetype & Key from the last track
+      let archIdx = Math.floor(rand() * ARCHETYPES.length);
+      if (archIdx === lastArchIdx) {
+        archIdx = (archIdx + 1 + Math.floor(rand() * (ARCHETYPES.length - 1))) % ARCHETYPES.length;
+      }
+      lastArchIdx = archIdx;
+      const archetype = ARCHETYPES[archIdx];
+
+      let rootKey = Math.floor(rand() * 12);
+      if (rootKey === lastRootKey) {
+        rootKey = (rootKey + 5) % 12;
+      }
+      lastRootKey = rootKey;
+      const rootName = NOTE_NAMES[rootKey];
+
+      const progIdx = archetype.progIndices[Math.floor(rand() * archetype.progIndices.length)];
+      const progTemplate = PROGRESSIONS[progIdx];
+      const scaleObj = SCALES[progTemplate.scale];
+
+      const bpm = Math.round(archetype.bpmRange[0] + rand() * (archetype.bpmRange[1] - archetype.bpmRange[0]));
+      const swing = +(archetype.swingRange[0] + rand() * (archetype.swingRange[1] - archetype.swingRange[0])).toFixed(2);
+
+      // Compute exact total bars so every song is 2:15 to 2:55 long (between 48 and 60 bars)
+      // At 75 BPM, 1 bar = 3.2 seconds -> 48 bars = 2m33s, 56 bars = 2m59s
+      const targetSeconds = 138 + rand() * 34; // 2:18 to 2:52 target duration
+      const barSeconds = (60 / bpm) * 4;
+      let totalBars = Math.round(targetSeconds / barSeconds / 4) * 4;
+      totalBars = Math.max(44, Math.min(64, totalBars));
+      const totalDurationSec = totalBars * barSeconds;
+
+      const chordInst = archetype.chordInsts[Math.floor(rand() * archetype.chordInsts.length)];
+      const leadInst = archetype.leadInsts[Math.floor(rand() * archetype.leadInsts.length)];
+      // Pick a contrasting secondary lead instrument for Chorus & Bridge counter-melodies
+      const allLeads = ['softHorn', 'jazzGuitar', 'vibraphone', 'woodenFlute', 'kotoPluck', 'musicBox'];
+      const otherLeads = allLeads.filter(l => l !== leadInst);
+      const counterInst = otherLeads[Math.floor(rand() * otherLeads.length)];
+
+      const drumKit = archetype.drumKits[Math.floor(rand() * archetype.drumKits.length)];
+      const bassStyle = archetype.bassStyles[Math.floor(rand() * archetype.bassStyles.length)];
+      const strumMs = Math.round(16 + rand() * 22);
+
+      // Voice Main Progression A (warm mid), Chorus Progression A+ (open upper extensions), and Bridge Progression B
+      const voicedChordsA = voiceChordSet(progTemplate.chordsA, rootKey, false);
+      const voicedChordsChorus = voiceChordSet(progTemplate.chordsA, rootKey, true);
+      const voicedChordsB = voiceChordSet(progTemplate.chordsB, rootKey, false);
+
+      // Build Scale & Pentatonic Note Pools
+      const pentatonicPcs = scaleObj.pentatonic.map(iv => (rootKey + iv) % 12);
+      const fullScalePcs = scaleObj.full.map(iv => (rootKey + iv) % 12);
+
+      const melodyPool = [];
+      const soloPool = [];
+      for (let m = 60; m <= 79; m++) {
+        if (pentatonicPcs.includes(m % 12)) melodyPool.push(m);
+        if (fullScalePcs.includes(m % 12)) soloPool.push(m);
+      }
+
+      // Compose 3 Distinct Melodic Themes + 1 Counter-Melody Theme across the song!
+      const melodyVerse = composeMelodyPhrase(rand, melodyPool, 0.34, 0);
+      const melodyChorus = composeMelodyPhrase(rand, melodyPool, 0.44, 0);
+      const melodyBridgeSolo = composeMelodyPhrase(rand, soloPool, 0.48, 0);
+      const counterMelody = composeMelodyPhrase(rand, melodyPool, 0.24, 0);
+
+      // Build TWO Drum Groove Patterns:
+      // Groove A (Standard Verse Pocket) & Groove B (Heavy Knock Chorus/Verse 2 with double kicks & ghost snares)
+      const kickA = new Array(16).fill(0);
+      const kickB = new Array(16).fill(0);
+      const snareA = new Array(16).fill(0);
+      const snareB = new Array(16).fill(0);
+      const hatA = new Array(16).fill(0);
+      const hatB = new Array(16).fill(0);
+
+      // Heavy Lofi Kick placement:
+      // Beat 1 (step 0) is always a deep anchor kick
+      kickA[0] = 1.0;
+      kickB[0] = 1.0;
+
+      // Syncopated lofi double-kicks (e.g. step 3, 7, 8, 10, 11, 14)
+      const mainPocket = rand() < 0.5 ? 7 : 8;
+      kickA[mainPocket] = 0.88;
+      kickB[mainPocket] = 0.94;
+      kickB[mainPocket - 1] = 0.68; // Classic boom-bap double-kick lead-in ("ba-THUMP")!
+
+      if (rand() < 0.75) {
+        kickA[10] = 0.82;
+        kickB[10] = 0.90;
+      }
+      if (rand() < 0.6) {
+        kickB[3] = 0.72;
+      }
+      kickB[14] = 0.76; // Turnaround kick pickup
+
+      // Snare placement (Beats 2 and 4 = steps 4 and 12, plus ghost snares)
+      snareA[4] = 0.92;
+      snareA[12] = 0.95;
+      snareB[4] = 0.96;
+      snareB[12] = 1.0;
+
+      // Ghost snares for head-nod swing
+      snareA[15] = rand() < 0.6 ? 0.34 : 0;
+      snareB[7] = 0.36;
+      snareB[15] = 0.42;
+      if (rand() < 0.5) snareB[9] = 0.30;
+
+      // Hi-hats
+      for (let i = 0; i < 16; i++) {
+        if (i % 2 === 0) {
+          hatA[i] = 0.68 + rand() * 0.2;
+          hatB[i] = 0.78 + rand() * 0.2;
+        } else {
+          if (rand() < 0.35) hatA[i] = 0.32;
+          if (rand() < 0.65) hatB[i] = 0.40;
+        }
+      }
+
+      // Chord rhythmic comping patterns (Verse vs Active Chorus)
+      const chordHitsVerse = [0];
+      if (rand() < 0.7) chordHitsVerse.push(rand() < 0.5 ? 6 : 8);
+
+      const chordHitsChorus = [0, 6, 10];
+      if (rand() < 0.5) chordHitsChorus.push(14);
+
+      // Arpeggio pattern
+      const arpSteps = new Array(16).fill(null);
+      for (let i = 0; i < 16; i += 2) {
+        if (rand() < 0.55) {
+          arpSteps[i] = { voiceIdx: (i / 2) % 5, vel: 0.55 + rand() * 0.25 };
+        }
+      }
+
+      const title = `${archetype.titleA[Math.floor(rand() * archetype.titleA.length)]} ${archetype.titleB[Math.floor(rand() * archetype.titleB.length)]}`;
+
+      return {
+        title,
+        archetype,
+        rootName,
+        scaleName: scaleObj.name,
+        bpm,
+        swing,
+        totalBars,
+        totalDurationSec,
+        chordInst,
+        leadInst,
+        counterInst,
+        drumKit,
+        drumWeight: archetype.drumWeight,
+        bassStyle,
+        strumMs,
+        voicedChordsA,
+        voicedChordsChorus,
+        voicedChordsB,
+        melodyVerse,
+        melodyChorus,
+        melodyBridgeSolo,
+        counterMelody,
+        kickA,
+        kickB,
+        snareA,
+        snareB,
+        hatA,
+        hatB,
+        chordHitsVerse,
+        chordHitsChorus,
+        arpSteps
+      };
+    }
+
+    // --- DETERMINE SECTION PROFILE FOR ANY BAR IN THE 2–3 MINUTE SONG ---
+    function getSectionForBar(bar, totalBars) {
+      // Normalized position across the 48–64 bar composition
+      if (bar < 4) {
+        return {
+          name: 'INTRO',
+          prog: 'A',
+          melody: 'sparse',
+          counter: false,
+          drums: 'intro',
+          arp: false,
+          filterHz: 1900 + (bar * 250)
+        };
+      }
+      if (bar < 12) {
+        return {
+          name: 'VERSE I',
+          prog: 'A',
+          melody: 'verse',
+          counter: false,
+          drums: 'grooveA',
+          arp: false,
+          filterHz: 2900
+        };
+      }
+      if (bar < 20) {
+        return {
+          name: 'CHORUS I',
+          prog: 'chorus',
+          melody: 'chorus',
+          counter: true,
+          drums: 'grooveB',
+          arp: true,
+          filterHz: 3500
+        };
+      }
+      if (bar < 28) {
+        return {
+          name: 'BRIDGE',
+          prog: 'B', // Harmonic shift to Progression B!
+          melody: 'bridgeSolo',
+          counter: true,
+          drums: 'grooveA',
+          arp: true,
+          filterHz: 3100
+        };
+      }
+      if (bar < 36) {
+        return {
+          name: 'VERSE II',
+          prog: 'A',
+          melody: 'bridgeSolo',
+          counter: false,
+          drums: 'grooveB', // Heavy pocket drums in Verse 2
+          arp: false,
+          filterHz: 3000
+        };
+      }
+      if (bar < 42) {
+        return {
+          name: 'BREAKDOWN',
+          prog: 'B',
+          melody: 'verse',
+          counter: false,
+          drums: 'breakdown', // Intimate late-night breather
+          arp: true,
+          filterHz: 1650
+        };
+      }
+      if (bar < totalBars - 4) {
+        return {
+          name: 'FINAL CHORUS',
+          prog: 'chorus',
+          melody: 'chorus',
+          counter: true,
+          drums: 'grooveB',
+          arp: true,
+          filterHz: 3700
+        };
+      }
+      return {
+        name: 'OUTRO',
+        prog: 'A',
+        melody: 'sparse',
+        counter: false,
+        drums: 'outro',
+        arp: true,
+        filterHz: 2100
+      };
+    }
+
+    // --- WEB AUDIO ENGINE WITH PUNCHY LOFI DRUMS & SIDECHAIN PUMP ---
+    class LofiRadioEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.isMuted = false;
+        this.userVolume = 0.70;
+        this.currentSong = null;
+        this.currentStep = 0;
+        this.currentBar = 0;
+        this.stepTimer = null;
+        this.lastKickVisualPulse = 0;
+      }
+
+      initAudio() {
+        if (this.ctx) {
+          if (this.ctx.state === 'suspended') this.ctx.resume();
+          return;
+        }
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioCtx();
+
+        // Master Gain
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.value = this.userVolume * 0.62;
+
+        // Clean Mastering Limiter (prevents any clipping while letting heavy kicks thump)
+        this.limiter = this.ctx.createDynamicsCompressor();
+        this.limiter.threshold.value = -5.0;
+        this.limiter.knee.value = 5.0;
+        this.limiter.ratio.value = 14.0;
+        this.limiter.attack.value = 0.002;
+        this.limiter.release.value = 0.12;
+
+        this.analyser = this.ctx.createAnalyser();
+        this.analyser.fftSize = 256;
+        this.analyser.smoothingTimeConstant = 0.82;
+
+        // SP-404 Sidechain Ducking Gain Node on the Melodic/Chord Bus!
+        // When a heavy kick hits, sidechainGain briefly ducks so the kick punches cleanly through
+        this.sidechainGain = this.ctx.createGain();
+        this.sidechainGain.gain.value = 1.0;
+
+        // Warm Dynamic Lowpass Filter on Melodic Bus (sweeps across song sections)
+        this.warmFilter = this.ctx.createBiquadFilter();
+        this.warmFilter.type = 'lowpass';
+        this.warmFilter.frequency.value = 2900;
+        this.warmFilter.Q.value = 0.55;
+
+        // Stereo Reverb
+        this.convolver = this.ctx.createConvolver();
+        this.convolver.buffer = this.createSmoothReverb(2.1, 2.7);
+        this.reverbGain = this.ctx.createGain();
+        this.reverbGain.gain.value = 0.22;
+
+        this.musicBus = this.ctx.createGain();
+        this.musicBus.gain.value = 0.82;
+
+        // Dedicated Drum Bus with a Warm 62 Hz Sub-Punch EQ Boost
+        this.drumBus = this.ctx.createGain();
+        this.drumBus.gain.value = 0.95;
+
+        this.drumSubBoost = this.ctx.createBiquadFilter();
+        this.drumSubBoost.type = 'lowshelf';
+        this.drumSubBoost.frequency.value = 85;
+        this.drumSubBoost.gain.value = 3.5; // Warm chest thump without clipping
+
+        // Connect Melodic Chain:
+        // musicBus -> warmFilter -> sidechainGain -> limiter
+        this.musicBus.connect(this.warmFilter);
+        this.musicBus.connect(this.convolver);
+        this.convolver.connect(this.reverbGain);
+        this.reverbGain.connect(this.warmFilter);
+        this.warmFilter.connect(this.sidechainGain);
+        this.sidechainGain.connect(this.limiter);
+
+        // Connect Drum Chain:
+        // drumBus -> drumSubBoost -> limiter
+        this.drumBus.connect(this.drumSubBoost);
+        this.drumSubBoost.connect(this.limiter);
+
+        this.limiter.connect(this.analyser);
+        this.analyser.connect(this.masterGain);
+        this.masterGain.connect(this.ctx.destination);
+
+        this.pinkNoiseBuffer = this.createPinkNoiseBuffer(2.5);
+        this.whiteNoiseBuffer = this.createWhiteNoiseBuffer(1.5);
+        this.startGentleAmbience();
+      }
+
+      createSmoothReverb(duration, decay) {
+        const rate = this.ctx.sampleRate;
+        const len = rate * duration;
+        const buf = this.ctx.createBuffer(2, len, rate);
+        for (let ch = 0; ch < 2; ch++) {
+          const data = buf.getChannelData(ch);
+          for (let i = 0; i < len; i++) {
+            const env = Math.sin((Math.PI * Math.min(i, rate * 0.04)) / (rate * 0.08));
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay) * env * 0.5;
+          }
+        }
+        return buf;
+      }
+
+      createPinkNoiseBuffer(seconds) {
+        const rate = this.ctx.sampleRate;
+        const len = rate * seconds;
+        const buf = this.ctx.createBuffer(1, len, rate);
+        const d = buf.getChannelData(0);
+        let last = 0;
+        for (let i = 0; i < len; i++) {
+          const white = Math.random() * 2 - 1;
+          last = 0.86 * last + 0.14 * white;
+          d[i] = last;
+        }
+        return buf;
+      }
+
+      createWhiteNoiseBuffer(seconds) {
+        const rate = this.ctx.sampleRate;
+        const len = rate * seconds;
+        const buf = this.ctx.createBuffer(1, len, rate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) {
+          d[i] = Math.random() * 2 - 1;
+        }
+        return buf;
+      }
+
+      startGentleAmbience() {
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.pinkNoiseBuffer;
+        src.loop = true;
+
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 1050;
+
+        this.ambienceGain = this.ctx.createGain();
+        this.ambienceGain.gain.value = 0;
+
+        src.connect(lp);
+        lp.connect(this.ambienceGain);
+        this.ambienceGain.connect(this.limiter);
+        src.start();
+      }
+
+      midiToFreq(m) {
+        return 440 * Math.pow(2, (m - 69) / 12);
+      }
+
+      // --- CHORD SYNTHESIZER ---
+      playChordVoice(midi, time, duration, inst) {
+        if (!this.ctx) return;
+        const freq = this.midiToFreq(midi);
+        const vGain = this.ctx.createGain();
+        vGain.connect(this.musicBus);
+
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+
+        if (inst === 'rhodes' || inst === 'vibraphone') {
+          osc1.type = 'sine';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(freq, time);
+          osc2.frequency.setValueAtTime(freq * (inst === 'vibraphone' ? 4 : 2), time);
+        } else if (inst === 'nylonGuitar') {
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+          osc1.frequency.setValueAtTime(freq, time);
+          osc2.frequency.setValueAtTime(freq * 2, time);
+        } else {
+          osc1.type = 'sine';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(freq, time);
+          osc2.frequency.setValueAtTime(freq * 1.002, time);
+        }
+
+        const osc2Gain = this.ctx.createGain();
+        osc2Gain.gain.setValueAtTime(inst === 'vibraphone' ? 0.07 : 0.16, time);
+        osc2Gain.gain.exponentialRampToValueAtTime(0.008, time + duration);
+
+        const attack = inst === 'warmPad' ? 0.16 : 0.025;
+        const peakGain = 0.030;
+
+        vGain.gain.setValueAtTime(0.0001, time);
+        vGain.gain.linearRampToValueAtTime(peakGain, time + attack);
+        vGain.gain.exponentialRampToValueAtTime(peakGain * 0.35, time + duration * 0.65);
+        vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.15);
+
+        osc1.connect(vGain);
+        osc2.connect(osc2Gain);
+        osc2Gain.connect(vGain);
+
+        osc1.start(time);
+        osc2.start(time);
+        osc1.stop(time + duration + 0.2);
+        osc2.stop(time + duration + 0.2);
+      }
+
+      playFullChord(chordObj, time, duration, song, velScale = 1.0) {
+        const strumSec = song.strumMs / 1000;
+        chordObj.midiNotes.forEach((midi, idx) => {
+          this.playChordVoice(midi, time + idx * strumSec, duration * velScale, song.chordInst);
+        });
+      }
+
+      // --- LEAD & COUNTER-MELODY VOICE ---
+      playMelodyVoice(midi, time, duration, inst, gainScale = 1.0, slide = false) {
+        if (!this.ctx) return;
+        const targetFreq = this.midiToFreq(midi);
+        const startFreq = slide ? this.midiToFreq(midi - 2) : targetFreq;
+        const vGain = this.ctx.createGain();
+        vGain.connect(this.musicBus);
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        osc.type = (inst === 'softHorn' || inst === 'woodenFlute') ? 'triangle' : 'sine';
+        overtone.type = 'sine';
+
+        osc.frequency.setValueAtTime(startFreq, time);
+        if (slide) {
+          osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.05);
+        }
+        overtone.frequency.setValueAtTime(targetFreq * (inst === 'musicBox' ? 3 : 2), time);
+
+        const vib = this.ctx.createOscillator();
+        const vibGain = this.ctx.createGain();
+        vib.frequency.value = 4.8;
+        vibGain.gain.setValueAtTime(0.01, time);
+        vibGain.gain.linearRampToValueAtTime(targetFreq * 0.004, time + duration * 0.6);
+        vib.connect(vibGain);
+        vibGain.connect(osc.frequency);
+
+        const ovGain = this.ctx.createGain();
+        ovGain.gain.setValueAtTime(0.11, time);
+        ovGain.gain.exponentialRampToValueAtTime(0.004, time + duration * 0.5);
+
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.setValueAtTime(targetFreq * 3.0, time);
+        lp.frequency.exponentialRampToValueAtTime(targetFreq * 1.4, time + duration);
+
+        const attack = (inst === 'softHorn' || inst === 'woodenFlute') ? 0.04 : 0.016;
+        const peak = 0.048 * gainScale;
+
+        vGain.gain.setValueAtTime(0.0001, time);
+        vGain.gain.linearRampToValueAtTime(peak, time + attack);
+        vGain.gain.exponentialRampToValueAtTime(peak * 0.4, time + duration * 0.7);
+        vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+        osc.connect(lp);
+        overtone.connect(ovGain);
+        ovGain.connect(lp);
+        lp.connect(vGain);
+
+        osc.start(time);
+        overtone.start(time);
+        vib.start(time);
+        osc.stop(time + duration + 0.15);
+        overtone.stop(time + duration + 0.15);
+        vib.stop(time + duration + 0.15);
+      }
+
+      // --- ARPEGGIO PLUCK ---
+      playArpVoice(midi, time) {
+        if (!this.ctx) return;
+        const freq = this.midiToFreq(midi);
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+
+        g.gain.setValueAtTime(0.0001, time);
+        g.gain.linearRampToValueAtTime(0.022, time + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.40);
+
+        osc.connect(g);
+        g.connect(this.musicBus);
+        osc.start(time);
+        osc.stop(time + 0.43);
+      }
+
+      // --- DEEP LOFI BASSLINE ---
+      playBassVoice(midi, time, duration, isHeavy) {
+        if (!this.ctx) return;
+        const freq = this.midiToFreq(midi);
+        const sub = this.ctx.createOscillator();
+        const warm = this.ctx.createOscillator();
+        sub.type = 'sine';
+        warm.type = 'triangle';
+        sub.frequency.setValueAtTime(freq, time);
+        warm.frequency.setValueAtTime(freq, time);
+
+        const warmFilter = this.ctx.createBiquadFilter();
+        warmFilter.type = 'lowpass';
+        warmFilter.frequency.setValueAtTime(freq * 3.2, time);
+        warmFilter.frequency.exponentialRampToValueAtTime(freq * 1.5, time + 0.15);
+
+        const warmGain = this.ctx.createGain();
+        warmGain.gain.value = 0.25;
+
+        const g = this.ctx.createGain();
+        const peak = isHeavy ? 0.145 : 0.115;
+        g.gain.setValueAtTime(0.0001, time);
+        g.gain.linearRampToValueAtTime(peak, time + 0.02);
+        g.gain.exponentialRampToValueAtTime(peak * 0.5, time + duration * 0.7);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.08);
+
+        sub.connect(g);
+        warm.connect(warmFilter);
+        warmFilter.connect(warmGain);
+        warmGain.connect(g);
+        g.connect(this.musicBus);
+
+        sub.start(time);
+        warm.start(time);
+        sub.stop(time + duration + 0.1);
+        warm.stop(time + duration + 0.1);
+      }
+
+      // --- HEAVY, PUNCHY LOFI KICK + SP-404 SIDECHAIN PUMP ---
+      playKick(time, vel, weight, kit) {
+        if (!this.ctx) return;
+        const isHeavy = (weight === 'heavy' || weight === 'medium-heavy');
+        const punchMul = weight === 'heavy' ? 1.32 : (weight === 'medium-heavy' ? 1.15 : 0.9);
+
+        // 1. Sub-Bass Drum Body (155 Hz -> 48 Hz -> 34 Hz)
+        const subOsc = this.ctx.createOscillator();
+        const subGain = this.ctx.createGain();
+        subOsc.type = 'sine';
+
+        const startHz = kit === 'heavySp404' ? 158 : (kit === 'heavyBoombap' ? 148 : 130);
+        subOsc.frequency.setValueAtTime(startHz, time);
+        subOsc.frequency.exponentialRampToValueAtTime(50, time + 0.055);
+        subOsc.frequency.exponentialRampToValueAtTime(35, time + 0.30);
+
+        const subPeak = Math.min(0.38, vel * 0.28 * punchMul);
+        subGain.gain.setValueAtTime(0.0001, time);
+        subGain.gain.linearRampToValueAtTime(subPeak, time + 0.005);
+        subGain.gain.exponentialRampToValueAtTime(subPeak * 0.45, time + 0.12);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+
+        subOsc.connect(subGain);
+        subGain.connect(this.drumBus);
+        subOsc.start(time);
+        subOsc.stop(time + 0.34);
+
+        // 2. Mid-Low Beater Knock Layer (gives audible chest thump on all speakers)
+        const knockOsc = this.ctx.createOscillator();
+        const knockFilter = this.ctx.createBiquadFilter();
+        const knockGain = this.ctx.createGain();
+        knockOsc.type = 'triangle';
+        knockOsc.frequency.setValueAtTime(290, time);
+        knockOsc.frequency.exponentialRampToValueAtTime(68, time + 0.038);
+
+        knockFilter.type = 'lowpass';
+        knockFilter.frequency.value = 420;
+
+        const knockPeak = vel * 0.14 * punchMul;
+        knockGain.gain.setValueAtTime(0.0001, time);
+        knockGain.gain.linearRampToValueAtTime(knockPeak, time + 0.003);
+        knockGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.045);
+
+        knockOsc.connect(knockFilter);
+        knockFilter.connect(knockGain);
+        knockGain.connect(this.drumBus);
+        knockOsc.start(time);
+        knockOsc.stop(time + 0.05);
+
+        // 3. Vinyl Felt Click Transient
+        if (isHeavy) {
+          const clickNoise = this.ctx.createBufferSource();
+          clickNoise.buffer = this.pinkNoiseBuffer;
+          const clickLp = this.ctx.createBiquadFilter();
+          clickLp.type = 'bandpass';
+          clickLp.frequency.value = 950;
+          clickLp.Q.value = 1.2;
+
+          const clickG = this.ctx.createGain();
+          clickG.gain.setValueAtTime(vel * 0.06, time);
+          clickG.gain.exponentialRampToValueAtTime(0.0001, time + 0.018);
+
+          clickNoise.connect(clickLp);
+          clickLp.connect(clickG);
+          clickG.connect(this.drumBus);
+          clickNoise.start(time);
+          clickNoise.stop(time + 0.022);
+        }
+
+        // 4. SP-404 Sidechain Compression Ducking on Music Bus!
+        if (this.sidechainGain && vel > 0.6) {
+          const duckDepth = weight === 'heavy' ? 0.54 : (weight === 'medium-heavy' ? 0.66 : 0.78);
+          this.sidechainGain.gain.cancelScheduledValues(time);
+          this.sidechainGain.gain.setValueAtTime(1.0, time);
+          this.sidechainGain.gain.linearRampToValueAtTime(duckDepth, time + 0.016);
+          this.sidechainGain.gain.exponentialRampToValueAtTime(1.0, time + 0.21);
+        }
+
+        this.lastKickVisualPulse = 1.0;
+      }
+
+      // --- CRISP, PUNCHY LOFI SNARE / RIMSHOT ---
+      playSnare(time, vel, kit, weight) {
+        if (!this.ctx) return;
+        const punchMul = weight === 'heavy' ? 1.25 : 1.05;
+
+        // 1. Fundamental Drum Shell Body
+        const body1 = this.ctx.createOscillator();
+        const body2 = this.ctx.createOscillator();
+        const bGain = this.ctx.createGain();
+        body1.type = 'triangle';
+        body2.type = 'sine';
+
+        const f1 = kit === 'brushGroove' ? 290 : 205;
+        body1.frequency.setValueAtTime(f1, time);
+        body1.frequency.exponentialRampToValueAtTime(102, time + 0.075);
+
+        body2.frequency.setValueAtTime(f1 * 1.55, time);
+        body2.frequency.exponentialRampToValueAtTime(145, time + 0.05);
+
+        bGain.gain.setValueAtTime(0.0001, time);
+        bGain.gain.linearRampToValueAtTime(vel * 0.13 * punchMul, time + 0.004);
+        bGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.10);
+
+        body1.connect(bGain);
+        body2.connect(bGain);
+        bGain.connect(this.drumBus);
+        body1.start(time);
+        body2.start(time);
+        body1.stop(time + 0.11);
+        body2.stop(time + 0.11);
+
+        // 2. Crisp Vinyl Snare Wires / Snap
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = this.whiteNoiseBuffer;
+
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = kit === 'heavyBoombap' ? 1850 : 1550;
+        bp.Q.value = 0.75;
+
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 4600;
+
+        const nGain = this.ctx.createGain();
+        const snapDur = kit === 'heavyBoombap' ? 0.17 : 0.14;
+        nGain.gain.setValueAtTime(0.0001, time);
+        nGain.gain.linearRampToValueAtTime(vel * 0.12 * punchMul, time + 0.004);
+        nGain.gain.exponentialRampToValueAtTime(0.0001, time + snapDur);
+
+        noise.connect(bp);
+        bp.connect(lp);
+        lp.connect(nGain);
+        nGain.connect(this.drumBus);
+        noise.start(time);
+        noise.stop(time + snapDur + 0.02);
+      }
+
+      // --- SWUNG LOFI HI-HATS & OPEN HATS ---
+      playHiHat(time, vel, isOpen = false) {
+        if (!this.ctx) return;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = this.whiteNoiseBuffer;
+
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 4200;
+
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 8200;
+
+        const g = this.ctx.createGain();
+        const dur = isOpen ? 0.21 : 0.048;
+        const peak = isOpen ? vel * 0.065 : vel * 0.052;
+        g.gain.setValueAtTime(0.0001, time);
+        g.gain.linearRampToValueAtTime(peak, time + 0.003);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+        noise.connect(hp);
+        hp.connect(lp);
+        lp.connect(g);
+        g.connect(this.drumBus);
+        noise.start(time);
+        noise.stop(time + dur + 0.015);
+      }
+
+      // --- SEQUENCER ---
+      start(song) {
+        this.initAudio();
+        if (song) this.currentSong = song;
+        if (!this.currentSong) return;
+
+        this.isPlaying = true;
+        if (this.ambienceGain) {
+          this.ambienceGain.gain.setTargetAtTime(0.015, this.ctx.currentTime, 0.2);
+        }
+        if (this.stepTimer) clearTimeout(this.stepTimer);
+        this.scheduleStep();
+      }
+
+      pause() {
+        this.isPlaying = false;
+        if (this.stepTimer) {
+          clearTimeout(this.stepTimer);
+          this.stepTimer = null;
+        }
+        if (this.ctx && this.ambienceGain) {
+          this.ambienceGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.1);
+        }
+      }
+
+      seekToProgress(ratio0to1) {
+        if (!this.currentSong) return;
+        const targetBar = Math.min(
+          this.currentSong.totalBars - 1,
+          Math.max(0, Math.floor(ratio0to1 * this.currentSong.totalBars))
+        );
+        this.currentBar = targetBar;
+        this.currentStep = 0;
+        const sec = getSectionForBar(this.currentBar, this.currentSong.totalBars);
+        const chordSet = sec.prog === 'B'
+          ? this.currentSong.voicedChordsB
+          : (sec.prog === 'chorus' ? this.currentSong.voicedChordsChorus : this.currentSong.voicedChordsA);
+        updateMinimalProgressUI(0, this.currentBar, chordSet[this.currentBar % 4].name, sec.name);
+      }
+
+      scheduleStep() {
+        if (!this.isPlaying || !this.currentSong) return;
+
+        const song = this.currentSong;
+        const step = this.currentStep;
+        const bar = this.currentBar;
+
+        const beatSec = 60 / song.bpm;
+        const base16th = beatSec / 4;
+        const stepDur = (step % 2 === 0)
+          ? (base16th * 2 * song.swing)
+          : (base16th * 2 * (1 - song.swing));
+
+        const now = this.ctx.currentTime + 0.025;
+        const section = getSectionForBar(bar, song.totalBars);
+
+        // Smoothly glide warm filter cutoff for section contrast (e.g. muffled breakdown vs bright chorus)
+        if (step === 0 && this.warmFilter) {
+          this.warmFilter.frequency.setTargetAtTime(section.filterHz, now, 0.6);
+        }
+
+        // Select harmonic progression for this section (Main A, Chorus A+, or Bridge B)
+        const chordIdx = bar % 4;
+        const chordSet = section.prog === 'B'
+          ? song.voicedChordsB
+          : (section.prog === 'chorus' ? song.voicedChordsChorus : song.voicedChordsA);
+        const activeChord = chordSet[chordIdx];
+
+        // 1. Trigger Chords
+        const chordHits = (section.prog === 'chorus') ? song.chordHitsChorus : song.chordHitsVerse;
+        if (chordHits.includes(step)) {
+          const hold = step === 0 ? beatSec * 3.3 : beatSec * 1.3;
+          const velScale = section.name === 'OUTRO' ? 0.75 : 1.0;
+          this.playFullChord(activeChord, now, hold, song, velScale);
+        }
+
+        // 2. Trigger Bassline
+        const isHeavyBass = (song.drumWeight === 'heavy' || section.drums === 'grooveB');
+        const playBass =
+          (step === 0) ||
+          (song.bassStyle === 'walking' && (step === 4 || step === 8 || step === 12)) ||
+          (song.bassStyle === 'syncopated' && (step === 6 || step === 10 || (section.drums === 'grooveB' && step === 14))) ||
+          (song.bassStyle === 'melodicBounce' && (step === 8 || step === 11 || step === 14)) ||
+          (song.bassStyle === 'halfTime' && step === 8);
+
+        if (playBass && section.name !== 'OUTRO') {
+          let bMidi = activeChord.bassMidi;
+          if (step === 8 && song.bassStyle !== 'deepSub') bMidi += 7;
+          else if (step === 11 || step === 12) bMidi += 5;
+          else if (step === 14) bMidi += 12;
+          this.playBassVoice(bMidi, now, step === 0 ? beatSec * 1.5 : beatSec * 0.7, isHeavyBass);
+        }
+
+        // 3. Trigger Heavy Lofi Drums & Turnaround Fills
+        const isTurnaroundBar = (bar % 4 === 3);
+        if (section.drums === 'grooveA' || section.drums === 'grooveB') {
+          const useB = (section.drums === 'grooveB');
+          const kPat = useB ? song.kickB : song.kickA;
+          const sPat = useB ? song.snareB : song.snareA;
+          const hPat = useB ? song.hatB : song.hatA;
+
+          if (kPat[step] > 0) {
+            this.playKick(now, kPat[step], song.drumWeight, song.drumKit);
+          }
+          if (sPat[step] > 0) {
+            // Laid-back Dilla snare micro-delay on beats 2 & 4
+            const late = (step === 4 || step === 12) ? 0.013 : 0;
+            this.playSnare(now + late, sPat[step], song.drumKit, song.drumWeight);
+          }
+          if (hPat[step] > 0) {
+            const isOpen = (useB && (step === 2 || step === 14) && chordIdx % 2 === 1);
+            this.playHiHat(now, hPat[step], isOpen);
+          }
+
+          // 4-Bar & 8-Bar Turnaround Drum Fills!
+          if (isTurnaroundBar && step >= 12) {
+            if (bar % 8 === 7) {
+              // 8-bar signature snare + kick drop fill
+              if (step === 13 || step === 15) {
+                this.playSnare(now, 0.55 + (step - 12) * 0.1, song.drumKit, song.drumWeight);
+              }
+              if (step === 14) {
+                this.playKick(now, 0.85, song.drumWeight, song.drumKit);
+              }
+            } else if (step === 15) {
+              this.playSnare(now, 0.48, song.drumKit, song.drumWeight);
+            }
+          }
+        } else if (section.drums === 'intro') {
+          // Intro: sparse hi-hats, then drum pickup fill on Bar 3 (end of 4-bar intro)
+          if (step % 4 === 0) this.playHiHat(now, 0.45, false);
+          if (bar === 3 && step === 0) this.playKick(now, 0.75, song.drumWeight, song.drumKit);
+          if (bar === 3 && (step === 12 || step === 14 || step === 15)) {
+            this.playSnare(now, 0.5 + (step - 11) * 0.12, song.drumKit, song.drumWeight);
+          }
+        } else if (section.drums === 'breakdown') {
+          // Breakdown: deep heartbeat kick on beat 1 and soft rim/hat on beat 3
+          if (step === 0) this.playKick(now, 0.72, 'cozy', song.drumKit);
+          if (step === 8) this.playHiHat(now, 0.4, true);
+          if (bar === 41 && step >= 12 && step % 2 === 0) {
+            // Fill leading into Final Chorus!
+            this.playSnare(now, 0.7, song.drumKit, song.drumWeight);
+          }
+        } else if (section.drums === 'outro') {
+          if (step === 0) this.playKick(now, 0.7, 'cozy', song.drumKit);
+          if (step === 4 || step === 12) this.playHiHat(now, 0.35, false);
+        }
+
+        // 4. Trigger Lead Melody Theme (Verse vs Chorus vs Bridge Solo)
+        const globalStep64 = (chordIdx * 16) + step;
+        let melBank = null;
+        if (section.melody === 'verse') melBank = song.melodyVerse;
+        else if (section.melody === 'chorus') melBank = song.melodyChorus;
+        else if (section.melody === 'bridgeSolo') melBank = song.melodyBridgeSolo;
+        else if (section.melody === 'sparse' && step % 4 === 0) melBank = song.melodyVerse;
+
+        if (melBank && melBank[globalStep64]) {
+          const mCell = melBank[globalStep64];
+          this.playMelodyVoice(
+            mCell.midi,
+            now,
+            mCell.durSteps * base16th,
+            song.leadInst,
+            1.0,
+            mCell.slide
+          );
+        }
+
+        // 5. Trigger Secondary Counter-Melody Instrument (active in Chorus I, Bridge, Final Chorus)
+        if (section.counter && song.counterMelody[globalStep64]) {
+          const cCell = song.counterMelody[globalStep64];
+          this.playMelodyVoice(
+            cCell.midi,
+            now + 0.012,
+            cCell.durSteps * base16th,
+            song.counterInst,
+            0.72,
+            false
+          );
+        }
+
+        // 6. Trigger Delicate Arpeggio
+        const arpCell = song.arpSteps[step];
+        if (section.arp && arpCell) {
+          const note = activeChord.midiNotes[arpCell.voiceIdx % activeChord.midiNotes.length] + 12;
+          this.playArpVoice(Math.min(82, note), now);
+        }
+
+        // Update Minimal UI
+        updateMinimalProgressUI(step, bar, activeChord.name, section.name);
+
+        // Advance Step & Bar across the 2–3 Minute Song
+        this.currentStep++;
+        if (this.currentStep >= 16) {
+          this.currentStep = 0;
+          this.currentBar++;
+          if (this.currentBar >= song.totalBars) {
+            this.currentBar = 0;
+            loadNewRandomTrack(true);
+            return;
+          }
+        }
+
+        this.stepTimer = setTimeout(() => this.scheduleStep(), stepDur * 1000);
+      }
+
+      setVolume(val0to1) {
+        this.userVolume = val0to1;
+        if (this.ctx && this.masterGain) {
+          const target = this.isMuted ? 0 : val0to1 * 0.62;
+          this.masterGain.gain.setTargetAtTime(target, this.ctx.currentTime, 0.05);
+        }
+      }
+
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        this.setVolume(this.userVolume);
+        return this.isMuted;
+      }
+    }
+
+    const engine = new LofiRadioEngine();
+
+    // --- MINIMAL UI UPDATES ---
+    function applySongToMinimalUI(song) {
+      const pal = song.archetype.palette;
+      document.documentElement.style.setProperty('--accent', pal.accent);
+      document.getElementById('ambientBackdrop').style.background =
+        `radial-gradient(circle at 50% 35%, ${pal.accent}35, transparent 65%)`;
+
+      document.getElementById('archetypeBadge').textContent = song.archetype.name;
+      document.getElementById('archetypeBadge').style.color = pal.accent;
+
+      document.getElementById('songTitleLabel').textContent = song.title;
+      document.getElementById('songMetaLabel').textContent = `${song.rootName} ${song.scaleName} • ${song.bpm} BPM`;
+      document.getElementById('activeChordBadge').textContent = song.voicedChordsA[0].name;
+      document.getElementById('songTimeLabel').textContent = `0:00 / ${formatTimeSec(song.totalDurationSec)}`;
+
+      const cName = INST_NAMES[song.chordInst] || song.chordInst;
+      const lName = INST_NAMES[song.leadInst] || song.leadInst;
+      const dName = INST_NAMES[song.drumKit] || song.drumKit;
+      document.getElementById('songInstrumentLabel').textContent = `${cName} · ${lName} · ${dName}`;
+    }
+
+    function updateMinimalProgressUI(step, bar, chordName, sectionName) {
+      const song = engine.currentSong;
+      if (!song) return;
+
+      document.getElementById('activeChordBadge').textContent = `${sectionName} • ${chordName}`;
+
+      const totalSteps = song.totalBars * 16;
+      const currentGlobalStep = (bar * 16) + step;
+      const pct = ((currentGlobalStep + 1) / totalSteps) * 100;
+      document.getElementById('barProgressFill').style.width = `${pct}%`;
+
+      const elapsedSec = (currentGlobalStep / totalSteps) * song.totalDurationSec;
+      document.getElementById('songTimeLabel').textContent =
+        `${formatTimeSec(elapsedSec)} / ${formatTimeSec(song.totalDurationSec)}`;
+    }
+
+    function updateTransportUI() {
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const playBtnText = document.getElementById('playBtnText');
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+
+      if (engine.isPlaying) {
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+        playBtnText.textContent = 'Pause';
+        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot';
+        statusText.textContent = 'PLAYING';
+      } else {
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        playBtnText.textContent = 'Play';
+        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-slate-400';
+        statusText.textContent = 'PAUSED';
+      }
+    }
+
+    function loadNewRandomTrack(autoPlay = false) {
+      const song = generateNewSong();
+      engine.currentSong = song;
+      engine.currentStep = 0;
+      engine.currentBar = 0;
+      applySongToMinimalUI(song);
+
+      if (autoPlay || engine.isPlaying) {
+        engine.start(song);
+        updateTransportUI();
+      } else {
+        updateMinimalProgressUI(0, 0, song.voicedChordsA[0].name, 'INTRO');
+      }
+    }
+
+    // --- REACTIVE COZY NIGHT WINDOW & KICK-REACTIVE VINYL VISUALIZER ---
+    function initCanvasVisualizer() {
+      const canvas = document.getElementById('sceneCanvas');
+      const ctx2d = canvas.getContext('2d');
+
+      const stars = Array.from({ length: 42 }, () => ({
+        x: Math.random(),
+        y: Math.random() * 0.65,
+        r: 0.6 + Math.random() * 1.4,
+        phase: Math.random() * Math.PI * 2
+      }));
+
+      const raindrops = Array.from({ length: 38 }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        len: 10 + Math.random() * 12,
+        speed: 0.009 + Math.random() * 0.01
+      }));
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        ctx2d.scale(window.devicePixelRatio, window.devicePixelRatio);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const freqData = new Uint8Array(128);
+      let vinylAngle = 0;
+      let tick = 0;
+
+      function draw() {
+        tick += 0.018;
+        const w = canvas.width / window.devicePixelRatio;
+        const h = canvas.height / window.devicePixelRatio;
+        const song = engine.currentSong;
+        const pal = song ? song.archetype.palette : { accent: '#f59e0b', secondary: '#6366f1', skyTop: '#090d1a', skyBot: '#1d1936' };
+
+        // Sky Backdrop
+        const grad = ctx2d.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, pal.skyTop);
+        grad.addColorStop(1, pal.skyBot);
+        ctx2d.fillStyle = grad;
+        ctx2d.fillRect(0, 0, w, h);
+
+        let energy = 0;
+        if (engine.ctx && engine.analyser && engine.isPlaying) {
+          engine.analyser.getByteFrequencyData(freqData);
+          for (let i = 0; i < 12; i++) energy += freqData[i];
+          energy = energy / (12 * 255);
+          vinylAngle += 0.014;
+        } else {
+          freqData.fill(0);
+        }
+
+        // Decay kick visual pulse smoothly
+        engine.lastKickVisualPulse *= 0.86;
+        const kickBump = engine.lastKickVisualPulse * 8;
+
+        // Twinkling Stars
+        stars.forEach(st => {
+          const a = 0.2 + 0.5 * Math.abs(Math.sin(tick + st.phase));
+          ctx2d.fillStyle = `rgba(255, 255, 255, ${a})`;
+          ctx2d.beginPath();
+          ctx2d.arc(st.x * w, st.y * h, st.r, 0, Math.PI * 2);
+          ctx2d.fill();
+        });
+
+        // Soft Rain Streaks
+        ctx2d.strokeStyle = 'rgba(203, 213, 225, 0.16)';
+        ctx2d.lineWidth = 1;
+        raindrops.forEach(rd => {
+          if (engine.isPlaying) {
+            rd.y += rd.speed;
+            rd.x -= 0.0015;
+            if (rd.y > 1) { rd.y = -0.05; rd.x = Math.random(); }
+            if (rd.x < 0) rd.x = 1;
+          }
+          ctx2d.beginPath();
+          ctx2d.moveTo(rd.x * w, rd.y * h);
+          ctx2d.lineTo(rd.x * w - 3, rd.y * h + rd.len);
+          ctx2d.stroke();
+        });
+
+        // Center Spinning Vinyl Disc with Kick-Reactive Aura
+        const cx = w * 0.5;
+        const cy = h * 0.48;
+        const baseR = 54 + energy * 8 + kickBump;
+
+        const aura = ctx2d.createRadialGradient(cx, cy, baseR * 0.35, cx, cy, baseR * 2.0);
+        aura.addColorStop(0, pal.accent + '66');
+        aura.addColorStop(0.5, pal.secondary + '28');
+        aura.addColorStop(1, 'transparent');
+        ctx2d.fillStyle = aura;
+        ctx2d.beginPath();
+        ctx2d.arc(cx, cy, baseR * 2.0, 0, Math.PI * 2);
+        ctx2d.fill();
+
+        ctx2d.save();
+        ctx2d.translate(cx, cy);
+        ctx2d.rotate(vinylAngle);
+
+        // Vinyl body
+        ctx2d.fillStyle = '#0c0f17';
+        ctx2d.beginPath();
+        ctx2d.arc(0, 0, baseR, 0, Math.PI * 2);
+        ctx2d.fill();
+        ctx2d.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+        ctx2d.lineWidth = 1.5;
+        ctx2d.stroke();
+
+        // Vinyl grooves
+        for (let r = 22; r < baseR - 6; r += 6) {
+          ctx2d.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+          ctx2d.lineWidth = 1;
+          ctx2d.beginPath();
+          ctx2d.arc(0, 0, r, 0.25, Math.PI - 0.35);
+          ctx2d.stroke();
+        }
+
+        // Center label
+        ctx2d.fillStyle = pal.accent;
+        ctx2d.beginPath();
+        ctx2d.arc(0, 0, 17 + kickBump * 0.25, 0, Math.PI * 2);
+        ctx2d.fill();
+
+        ctx2d.fillStyle = '#06080d';
+        ctx2d.beginPath();
+        ctx2d.arc(0, 0, 4, 0, Math.PI * 2);
+        ctx2d.fill();
+        ctx2d.restore();
+
+        // Bottom Spectrum Bars
+        const bars = 36;
+        const bw = w / bars;
+        for (let i = 0; i < bars; i++) {
+          const v = freqData[i] || 0;
+          const bh = (v / 255) * (h * 0.28);
+          ctx2d.fillStyle = pal.accent + '66';
+          ctx2d.fillRect(i * bw + 2, h - bh, bw - 4, bh);
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    // --- INITIALIZE ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initCanvasVisualizer();
+      loadNewRandomTrack(false);
+
+      document.getElementById('playPauseBtn').addEventListener('click', () => {
+        if (engine.isPlaying) {
+          engine.pause();
+        } else {
+          engine.start(engine.currentSong);
+        }
+        updateTransportUI();
+      });
+
+      document.getElementById('randomizeBtn').addEventListener('click', () => {
+        loadNewRandomTrack(true);
+      });
+
+      // Click anywhere on the thin progress bar to seek through the 2–3 minute song
+      const seekBar = document.getElementById('timelineSeekBar');
+      seekBar.addEventListener('click', (e) => {
+        const rect = seekBar.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        engine.seekToProgress(ratio);
+      });
+
+      const volSlider = document.getElementById('masterVolumeSlider');
+      volSlider.addEventListener('input', (e) => {
+        const val = Number(e.target.value);
+        document.getElementById('masterVolumeLabel').textContent = `${val}%`;
+        engine.setVolume(val / 100);
+      });
+
+      document.getElementById('muteToggleBtn').addEventListener('click', () => {
+        const muted = engine.toggleMute();
+        document.getElementById('volIconOn').classList.toggle('hidden', muted);
+        document.getElementById('volIconMuted').classList.toggle('hidden', !muted);
+      });
+    });
+  </script>
+</body>
+</html>
