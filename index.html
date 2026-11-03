@@ -363,117 +363,226 @@
       }
     ];
 
-    // 8 Distinct Archetypes — including dedicated Heavy Boom-Bap / SP-404 Knockers & Chillhop Worlds
+    // 8 Radically Distinct Sonic Worlds:
+    // Every archetype features completely distinct synthesis engines for chords, leads, bass, drums, arps & ambience!
     const ARCHETYPES = [
       {
-        id: 'jazzhop',
+        id: 'sp404',
         name: 'Shibuya SP-404 Boom-Bap',
-        bpmRange: [76, 86],
-        swingRange: [0.59, 0.65],
+        bpmRange: [78, 86],
+        swingRange: [0.60, 0.66],
         progIndices: [2, 7, 0],
-        chordInsts: ['rhodes', 'feltPiano'],
-        leadInsts: ['softHorn', 'jazzGuitar'],
-        drumKits: ['heavySp404', 'heavyBoombap'],
-        drumWeight: 'heavy', // Heavy sub kick + strong sidechain pump + crisp snare
-        bassStyles: ['syncopated', 'walking'],
+        chordInsts: ['rhodes'],
+        leadInsts: ['softHorn'],
+        secondaryLeads: ['jazzGuitar'],
+        bassInsts: ['uprightJazz'],
+        drumKits: ['heavySp404'],
+        drumWeight: 'heavy',
+        arpInsts: ['tapeChime'],
+        arpPatterns: ['pendulum'],
+        ambientType: 'vinylDust',
+        hasShaker: false,
+        hasRide: false,
+        tapeWarble: 0.003,
         palette: { accent: '#f59e0b', secondary: '#ef4444', skyTop: '#0b0914', skyBot: '#24142c' },
         titleA: ['Late Night Beat Tape:', 'SP-404 Session in', 'Crate Digging at', 'Heavy Pocket in'],
         titleB: ['Shibuya', 'Shimokitazawa', 'Record Alley', '3:00 AM']
       },
       {
-        id: 'sunday',
-        name: 'Brooklyn Dusty Knock',
-        bpmRange: [80, 88],
-        swingRange: [0.60, 0.66],
+        id: 'chillhop',
+        name: 'Tokyo Rain Garden Chillhop',
+        bpmRange: [72, 80],
+        swingRange: [0.56, 0.62],
+        progIndices: [1, 5, 0],
+        chordInsts: ['feltPiano'],
+        leadInsts: ['woodenFlute'],
+        secondaryLeads: ['kotoPluck'],
+        bassInsts: ['sub808'],
+        drumKits: ['punchyChillhop'],
+        drumWeight: 'punchy',
+        arpInsts: ['celeste'],
+        arpPatterns: ['cascade'],
+        ambientType: 'rain',
+        hasShaker: true,
+        hasRide: false,
+        tapeWarble: 0.0015,
+        palette: { accent: '#38bdf8', secondary: '#818cf8', skyTop: '#070c18', skyBot: '#18223d' },
+        titleA: ['Raindrops Falling on', 'Puddle Reflections in', 'Paper Umbrella at', 'Quiet Garden in'],
+        titleB: ['Shinjuku Gyoen', 'Yanaka', 'Kichijoji', 'Afternoon Mist']
+      },
+      {
+        id: 'bedstuy',
+        name: 'Brooklyn Dusty Knock ’94',
+        bpmRange: [82, 89],
+        swingRange: [0.61, 0.67],
         progIndices: [0, 3, 7],
-        chordInsts: ['rhodes', 'warmSynth'],
-        leadInsts: ['jazzGuitar', 'vibraphone'],
-        drumKits: ['heavyBoombap', 'heavySp404'],
+        chordInsts: ['wurlitzer'],
+        leadInsts: ['jazzGuitar'],
+        secondaryLeads: ['vibraphone'],
+        bassInsts: ['pickedElectric'],
+        drumKits: ['heavyBoombap'],
         drumWeight: 'heavy',
-        bassStyles: ['melodicBounce', 'syncopated'],
+        arpInsts: ['kalimba'],
+        arpPatterns: ['sparkle'],
+        ambientType: 'vinylDust',
+        hasShaker: false,
+        hasRide: false,
+        tapeWarble: 0.0028,
         palette: { accent: '#fb923c', secondary: '#6366f1', skyTop: '#100b14', skyBot: '#291a2e' },
-        titleA: ['DustyMPC on', 'Rooftop Cypher:', 'Subway Rhythm to', 'Vinyl Knock at'],
+        titleA: ['Dusty MPC on', 'Rooftop Cypher:', 'Subway Rhythm to', 'Vinyl Knock at'],
         titleB: ['Bed-Stuy Ave', 'Williamsburg', 'Flatbush', 'Midnight Lab']
       },
       {
-        id: 'starlight',
-        name: 'Tokyo Midnight Jazzhop',
-        bpmRange: [72, 82],
-        swingRange: [0.57, 0.63],
-        progIndices: [0, 2, 5],
-        chordInsts: ['feltPiano', 'rhodes'],
-        leadInsts: ['softHorn', 'vibraphone'],
-        drumKits: ['punchyChillhop', 'heavySp404'],
-        drumWeight: 'medium-heavy',
-        bassStyles: ['walking', 'syncopated'],
-        palette: { accent: '#38bdf8', secondary: '#818cf8', skyTop: '#070c18', skyBot: '#18223d' },
-        titleA: ['Midnight in', 'Last Train to', 'Neon Rain in', 'Blue Note'],
-        titleB: ['Kichijoji', 'Daikanyama', 'Shinjuku', 'After Hours']
-      },
-      {
-        id: 'cassette',
-        name: 'Cassette Tape Knock ’97',
-        bpmRange: [78, 86],
-        swingRange: [0.56, 0.62],
+        id: 'cassette80s',
+        name: 'Sunset Dreamwave ’88',
+        bpmRange: [76, 84],
+        swingRange: [0.54, 0.59],
         progIndices: [6, 3, 1],
-        chordInsts: ['warmSynth', 'rhodes'],
-        leadInsts: ['sineLead', 'jazzGuitar'],
-        drumKits: ['heavySp404', 'punchyChillhop'],
-        drumWeight: 'heavy',
-        bassStyles: ['syncopated', 'melodicBounce'],
+        chordInsts: ['warmSynth'],
+        leadInsts: ['sineLead'],
+        secondaryLeads: ['softHorn'],
+        bassInsts: ['moogSaw'],
+        drumKits: ['tape80s'],
+        drumWeight: 'punchy',
+        arpInsts: ['synthPluck'],
+        arpPatterns: ['drift'],
+        ambientType: 'tapeHiss',
+        hasShaker: false,
+        hasRide: false,
+        tapeWarble: 0.0042,
         palette: { accent: '#ec4899', secondary: '#a855f7', skyTop: '#14081c', skyBot: '#2d143b' },
-        titleA: ['Walkman Bounce:', 'Side B Knock in', 'Summer of ’97', 'Warped Cassette:'],
-        titleB: ['Ocean Drive', 'Skatepark', 'Bedroom Studio', 'Golden Hour']
+        titleA: ['Walkman Bounce:', 'Side B Knock in', 'Summer of ’88', 'Warped Cassette:'],
+        titleB: ['Ocean Drive', 'Santa Monica', 'Neon Boulevard', 'Golden Hour']
       },
       {
-        id: 'seoul',
-        name: 'Seoul Coffee & Beats',
-        bpmRange: [70, 78],
+        id: 'coffee',
+        name: 'Seoul Cafe & Bossa Beats',
+        bpmRange: [70, 77],
         swingRange: [0.55, 0.61],
         progIndices: [5, 1, 0],
-        chordInsts: ['nylonGuitar', 'feltPiano'],
-        leadInsts: ['woodenFlute', 'jazzGuitar'],
-        drumKits: ['punchyChillhop', 'brushGroove'],
-        drumWeight: 'medium-heavy',
-        bassStyles: ['melodicBounce', 'walking'],
+        chordInsts: ['nylonGuitar'],
+        leadInsts: ['vibraphone'],
+        secondaryLeads: ['woodenFlute'],
+        bassInsts: ['fretlessMellow'],
+        drumKits: ['brushGroove'],
+        drumWeight: 'cozy',
+        arpInsts: ['acousticHarp'],
+        arpPatterns: ['cascade'],
+        ambientType: 'cafeRoom',
+        hasShaker: true,
+        hasRide: true,
+        tapeWarble: 0.0018,
         palette: { accent: '#eab308', secondary: '#f97316', skyTop: '#14100b', skyBot: '#2b1f14' },
-        titleA: ['Warm Espresso in', 'Window Seat at', 'Rainy Afternoon in', 'Vinyl & Coffee:'],
+        titleA: ['Warm Espresso in', 'Window Seat at', 'Pour-Over Coffee in', 'Vinyl & Bossa:'],
         titleB: ['Hongdae', 'Ikseon-dong', 'Han River', 'Yeonnam']
       },
       {
-        id: 'kyoto',
-        name: 'Kyoto Lantern Chill',
-        bpmRange: [64, 72],
-        swingRange: [0.54, 0.59],
-        progIndices: [4, 1, 2],
-        chordInsts: ['feltPiano', 'warmPad'],
-        leadInsts: ['kotoPluck', 'musicBox'],
-        drumKits: ['brushGroove', 'punchyChillhop'],
+        id: 'midnight',
+        name: 'Midnight Blue Note Jazz',
+        bpmRange: [68, 76],
+        swingRange: [0.58, 0.64],
+        progIndices: [0, 2, 5],
+        chordInsts: ['rhodes'],
+        leadInsts: ['mellowSax'],
+        secondaryLeads: ['softHorn'],
+        bassInsts: ['uprightJazz'],
+        drumKits: ['jazzRideKit'],
         drumWeight: 'cozy',
-        bassStyles: ['deepSub', 'halfTime'],
+        arpInsts: ['celeste'],
+        arpPatterns: ['chordRoll'],
+        ambientType: 'vinylDust',
+        hasShaker: false,
+        hasRide: true,
+        tapeWarble: 0.0022,
+        palette: { accent: '#60a5fa', secondary: '#c084fc', skyTop: '#060913', skyBot: '#15172b' },
+        titleA: ['Midnight in', 'Last Train to', 'Smoky Basement in', 'Blue Note'],
+        titleB: ['Daikanyama', 'Roppongi', 'Ginza', 'After Hours']
+      },
+      {
+        id: 'kyoto',
+        name: 'Kyoto Moonlit Pavilion',
+        bpmRange: [64, 72],
+        swingRange: [0.53, 0.58],
+        progIndices: [4, 1, 2],
+        chordInsts: ['feltPiano'],
+        leadInsts: ['kotoPluck'],
+        secondaryLeads: ['woodenFlute'],
+        bassInsts: ['sub808'],
+        drumKits: ['cozyAcoustic'],
+        drumWeight: 'cozy',
+        arpInsts: ['acousticHarp'],
+        arpPatterns: ['sparkle'],
+        ambientType: 'nightBreeze',
+        hasShaker: true,
+        hasRide: false,
+        tapeWarble: 0.0016,
         palette: { accent: '#10b981', secondary: '#0ea5e9', skyTop: '#061217', skyBot: '#12292e' },
-        titleA: ['Rain Over', 'Moss Garden in', 'Paper Lanterns at', 'Mist Above'],
+        titleA: ['Bamboo Groves of', 'Moss Garden in', 'Paper Lanterns at', 'Moon Above'],
         titleB: ['Arashiyama', 'Gion', 'Kamo River', 'Nanzen-ji']
+      },
+      {
+        id: 'lofidream',
+        name: 'Stargazing Bedroom Lofi',
+        bpmRange: [74, 82],
+        swingRange: [0.57, 0.62],
+        progIndices: [1, 4, 3],
+        chordInsts: ['warmPad'],
+        leadInsts: ['musicBox'],
+        secondaryLeads: ['sineLead'],
+        bassInsts: ['moogSaw'],
+        drumKits: ['bedroomLofi'],
+        drumWeight: 'punchy',
+        arpInsts: ['celeste'],
+        arpPatterns: ['pendulum'],
+        ambientType: 'rain',
+        hasShaker: true,
+        hasRide: false,
+        tapeWarble: 0.0035,
+        palette: { accent: '#a78bfa', secondary: '#f472b6', skyTop: '#0d091a', skyBot: '#26163b' },
+        titleA: ['Lucid Dreams in', 'Bedroom Stargazing at', 'Blanket Fort in', 'Midnight Glow:'],
+        titleB: ['Constellations', 'Room 404', 'Cloud Nine', 'Dreamscape']
       }
     ];
 
     const INST_NAMES = {
-      rhodes: 'Vintage Rhodes',
-      feltPiano: 'Felt Piano',
-      warmSynth: 'Analog Tape Pad',
-      nylonGuitar: 'Nylon Guitar',
+      rhodes: 'FM Vintage Rhodes',
+      feltPiano: 'Acoustic Felt Piano',
+      warmSynth: 'Analog Polysynth',
+      nylonGuitar: 'Nylon Acoustic Guitar',
+      wurlitzer: 'Vintage Wurlitzer',
       warmPad: 'Lush Silk Pad',
-      vibraphone: 'Vibraphone',
+      vibraphone: 'Vibraphone Bell',
       softHorn: 'Muted Jazz Horn',
-      musicBox: 'Kalimba Bell',
-      woodenFlute: 'Wooden Flute',
-      kotoPluck: 'Koto Pluck',
-      sineLead: 'Portamento Lead',
-      jazzGuitar: 'Jazz Guitar',
-      heavySp404: 'Heavy SP-404 Drums',
-      heavyBoombap: '90s Boom-Bap Knock',
+      musicBox: 'Kalimba Celeste Bell',
+      woodenFlute: 'Shakuhachi Bamboo Flute',
+      kotoPluck: 'Japanese Koto Zither',
+      sineLead: 'Portamento Tape Lead',
+      jazzGuitar: 'Archtop Jazz Guitar',
+      mellowSax: 'Muted Jazz Sax',
+      heavySp404: 'Heavy SP-404 Kit',
+      heavyBoombap: '’94 Boom-Bap Kit',
       punchyChillhop: 'Punchy Chillhop Kit',
-      brushGroove: 'Warm Rim & Kick Kit'
+      brushGroove: 'Brushed Jazz & Shaker Kit',
+      tape80s: 'Cassette Dreamwave Kit',
+      jazzRideKit: 'Blue Note Ride Kit',
+      cozyAcoustic: 'Organic Wood Kit',
+      bedroomLofi: 'Bedroom Snap & Sub Kit'
+    };
+
+    const BASS_NAMES = {
+      uprightJazz: 'Woody Upright Bass',
+      sub808: 'Deep 808 Sub',
+      moogSaw: 'Resonant Moog Saw Bass',
+      pickedElectric: 'Picked P-Bass',
+      fretlessMellow: 'Singing Fretless Bass'
+    };
+
+    const ARP_NAMES = {
+      celeste: 'Celeste Glass Bell',
+      kalimba: 'Woody Kalimba',
+      synthPluck: 'Analog Filter Pluck',
+      acousticHarp: 'Delicate Acoustic Harp',
+      tapeChime: 'Cassette Bell Chime'
     };
 
     let lastArchIdx = -1;
@@ -575,8 +684,6 @@
       const bpm = Math.round(archetype.bpmRange[0] + rand() * (archetype.bpmRange[1] - archetype.bpmRange[0]));
       const swing = +(archetype.swingRange[0] + rand() * (archetype.swingRange[1] - archetype.swingRange[0])).toFixed(2);
 
-      // Compute exact total bars so every song is 2:15 to 2:55 long (between 48 and 60 bars)
-      // At 75 BPM, 1 bar = 3.2 seconds -> 48 bars = 2m33s, 56 bars = 2m59s
       const targetSeconds = 138 + rand() * 34; // 2:18 to 2:52 target duration
       const barSeconds = (60 / bpm) * 4;
       let totalBars = Math.round(targetSeconds / barSeconds / 4) * 4;
@@ -585,21 +692,19 @@
 
       const chordInst = archetype.chordInsts[Math.floor(rand() * archetype.chordInsts.length)];
       const leadInst = archetype.leadInsts[Math.floor(rand() * archetype.leadInsts.length)];
-      // Pick a contrasting secondary lead instrument for Chorus & Bridge counter-melodies
-      const allLeads = ['softHorn', 'jazzGuitar', 'vibraphone', 'woodenFlute', 'kotoPluck', 'musicBox'];
-      const otherLeads = allLeads.filter(l => l !== leadInst);
-      const counterInst = otherLeads[Math.floor(rand() * otherLeads.length)];
-
+      const counterInst = archetype.secondaryLeads[Math.floor(rand() * archetype.secondaryLeads.length)];
+      const bassInst = archetype.bassInsts[Math.floor(rand() * archetype.bassInsts.length)];
       const drumKit = archetype.drumKits[Math.floor(rand() * archetype.drumKits.length)];
-      const bassStyle = archetype.bassStyles[Math.floor(rand() * archetype.bassStyles.length)];
-      const strumMs = Math.round(16 + rand() * 22);
+      const arpInst = archetype.arpInsts[Math.floor(rand() * archetype.arpInsts.length)];
+      const arpPattern = archetype.arpPatterns[Math.floor(rand() * archetype.arpPatterns.length)];
+      const strumMs = Math.round(18 + rand() * 20);
 
-      // Voice Main Progression A (warm mid), Chorus Progression A+ (open upper extensions), and Bridge Progression B
+      // Voice progressions
       const voicedChordsA = voiceChordSet(progTemplate.chordsA, rootKey, false);
       const voicedChordsChorus = voiceChordSet(progTemplate.chordsA, rootKey, true);
       const voicedChordsB = voiceChordSet(progTemplate.chordsB, rootKey, false);
 
-      // Build Scale & Pentatonic Note Pools
+      // Build Scale Pools
       const pentatonicPcs = scaleObj.pentatonic.map(iv => (rootKey + iv) % 12);
       const fullScalePcs = scaleObj.full.map(iv => (rootKey + iv) % 12);
 
@@ -610,31 +715,34 @@
         if (fullScalePcs.includes(m % 12)) soloPool.push(m);
       }
 
-      // Compose 3 Distinct Melodic Themes + 1 Counter-Melody Theme across the song!
+      // Compose Melodic Themes
       const melodyVerse = composeMelodyPhrase(rand, melodyPool, 0.34, 0);
       const melodyChorus = composeMelodyPhrase(rand, melodyPool, 0.44, 0);
       const melodyBridgeSolo = composeMelodyPhrase(rand, soloPool, 0.48, 0);
       const counterMelody = composeMelodyPhrase(rand, melodyPool, 0.24, 0);
 
-      // Build TWO Drum Groove Patterns:
-      // Groove A (Standard Verse Pocket) & Groove B (Heavy Knock Chorus/Verse 2 with double kicks & ghost snares)
+      // Drum Groove Patterns: Groove A & Groove B
       const kickA = new Array(16).fill(0);
       const kickB = new Array(16).fill(0);
       const snareA = new Array(16).fill(0);
       const snareB = new Array(16).fill(0);
       const hatA = new Array(16).fill(0);
       const hatB = new Array(16).fill(0);
+      const shakerA = new Array(16).fill(0);
+      const shakerB = new Array(16).fill(0);
+      const rideA = new Array(16).fill(0);
+      const rideB = new Array(16).fill(0);
 
-      // Heavy Lofi Kick placement:
-      // Beat 1 (step 0) is always a deep anchor kick
+      // Kick placement
       kickA[0] = 1.0;
       kickB[0] = 1.0;
 
-      // Syncopated lofi double-kicks (e.g. step 3, 7, 8, 10, 11, 14)
       const mainPocket = rand() < 0.5 ? 7 : 8;
       kickA[mainPocket] = 0.88;
       kickB[mainPocket] = 0.94;
-      kickB[mainPocket - 1] = 0.68; // Classic boom-bap double-kick lead-in ("ba-THUMP")!
+      if (archetype.drumWeight === 'heavy') {
+        kickB[mainPocket - 1] = 0.68; // Classic boom-bap lead-in double kick
+      }
 
       if (rand() < 0.75) {
         kickA[10] = 0.82;
@@ -643,15 +751,15 @@
       if (rand() < 0.6) {
         kickB[3] = 0.72;
       }
-      kickB[14] = 0.76; // Turnaround kick pickup
+      kickB[14] = 0.76;
 
-      // Snare placement (Beats 2 and 4 = steps 4 and 12, plus ghost snares)
+      // Snare placement
       snareA[4] = 0.92;
       snareA[12] = 0.95;
       snareB[4] = 0.96;
       snareB[12] = 1.0;
 
-      // Ghost snares for head-nod swing
+      // Ghost snares
       snareA[15] = rand() < 0.6 ? 0.34 : 0;
       snareB[7] = 0.36;
       snareB[15] = 0.42;
@@ -668,18 +776,61 @@
         }
       }
 
-      // Chord rhythmic comping patterns (Verse vs Active Chorus)
+      // Shaker Groove (if archetype has shaker)
+      if (archetype.hasShaker) {
+        for (let i = 0; i < 16; i++) {
+          const isAccent = (i % 4 === 2);
+          shakerA[i] = isAccent ? 0.70 : (i % 2 === 0 ? 0.42 : 0.28);
+          shakerB[i] = isAccent ? 0.82 : 0.46;
+        }
+      }
+
+      // Ride Cymbal Groove (if archetype has ride)
+      if (archetype.hasRide) {
+        rideA[0] = 0.55;
+        rideA[4] = 0.65;
+        rideA[8] = 0.55;
+        rideA[12] = 0.65;
+        rideB[0] = 0.60;
+        rideB[4] = 0.72;
+        rideB[8] = 0.60;
+        rideB[12] = 0.72;
+        rideB[14] = 0.50; // Skip tap
+      }
+
+      // Chord rhythmic comping
       const chordHitsVerse = [0];
       if (rand() < 0.7) chordHitsVerse.push(rand() < 0.5 ? 6 : 8);
 
       const chordHitsChorus = [0, 6, 10];
       if (rand() < 0.5) chordHitsChorus.push(14);
 
-      // Arpeggio pattern
+      // Distinct Arpeggio Pattern Algorithms
       const arpSteps = new Array(16).fill(null);
-      for (let i = 0; i < 16; i += 2) {
-        if (rand() < 0.55) {
-          arpSteps[i] = { voiceIdx: (i / 2) % 5, vel: 0.55 + rand() * 0.25 };
+      if (arpPattern === 'cascade') {
+        for (let i = 0; i < 16; i += 2) {
+          arpSteps[i] = { voiceIdx: (i / 2) % 5, vel: 0.52 + rand() * 0.24 };
+        }
+      } else if (arpPattern === 'pendulum') {
+        const seq = [0, 1, 2, 3, 4, 3, 2, 1];
+        for (let i = 0; i < 16; i += 2) {
+          arpSteps[i] = { voiceIdx: seq[(i / 2) % 8], vel: 0.54 + rand() * 0.22 };
+        }
+      } else if (arpPattern === 'sparkle') {
+        const sparkleSteps = [2, 5, 8, 11, 14];
+        sparkleSteps.forEach((s, idx) => {
+          if (rand() < 0.85) {
+            arpSteps[s] = { voiceIdx: (idx * 2 + 1) % 5, vel: 0.60 + rand() * 0.25 };
+          }
+        });
+      } else if (arpPattern === 'drift') {
+        for (let i = 0; i < 16; i += 3) {
+          arpSteps[i] = { voiceIdx: (i / 3) % 5, vel: 0.52 + rand() * 0.24 };
+        }
+      } else if (arpPattern === 'chordRoll') {
+        const rollStep = rand() < 0.5 ? 2 : 6;
+        for (let i = 0; i < 4; i++) {
+          arpSteps[rollStep + i] = { voiceIdx: i, vel: 0.45 + i * 0.1 };
         }
       }
 
@@ -697,9 +848,15 @@
         chordInst,
         leadInst,
         counterInst,
+        bassInst,
         drumKit,
+        arpInst,
+        arpPattern,
+        ambientType: archetype.ambientType,
+        hasShaker: archetype.hasShaker,
+        hasRide: archetype.hasRide,
+        tapeWarble: archetype.tapeWarble,
         drumWeight: archetype.drumWeight,
-        bassStyle,
         strumMs,
         voicedChordsA,
         voicedChordsChorus,
@@ -714,6 +871,10 @@
         snareB,
         hatA,
         hatB,
+        shakerA,
+        shakerB,
+        rideA,
+        rideB,
         chordHitsVerse,
         chordHitsChorus,
         arpSteps
@@ -722,7 +883,6 @@
 
     // --- DETERMINE SECTION PROFILE FOR ANY BAR IN THE 2–3 MINUTE SONG ---
     function getSectionForBar(bar, totalBars) {
-      // Normalized position across the 48–64 bar composition
       if (bar < 4) {
         return {
           name: 'INTRO',
@@ -759,7 +919,7 @@
       if (bar < 28) {
         return {
           name: 'BRIDGE',
-          prog: 'B', // Harmonic shift to Progression B!
+          prog: 'B',
           melody: 'bridgeSolo',
           counter: true,
           drums: 'grooveA',
@@ -773,7 +933,7 @@
           prog: 'A',
           melody: 'bridgeSolo',
           counter: false,
-          drums: 'grooveB', // Heavy pocket drums in Verse 2
+          drums: 'grooveB',
           arp: false,
           filterHz: 3000
         };
@@ -784,7 +944,7 @@
           prog: 'B',
           melody: 'verse',
           counter: false,
-          drums: 'breakdown', // Intimate late-night breather
+          drums: 'breakdown',
           arp: true,
           filterHz: 1650
         };
@@ -811,7 +971,7 @@
       };
     }
 
-    // --- WEB AUDIO ENGINE WITH PUNCHY LOFI DRUMS & SIDECHAIN PUMP ---
+    // --- ADVANCED WEB AUDIO LOFI ENGINE WITH DIVERSE INSTRUMENTS & REAL DELAY ---
     class LofiRadioEngine {
       constructor() {
         this.ctx = null;
@@ -837,24 +997,23 @@
         this.masterGain = this.ctx.createGain();
         this.masterGain.gain.value = this.userVolume * 0.62;
 
-        // Clean Mastering Limiter (prevents any clipping while letting heavy kicks thump)
+        // Mastering Limiter
         this.limiter = this.ctx.createDynamicsCompressor();
-        this.limiter.threshold.value = -5.0;
-        this.limiter.knee.value = 5.0;
+        this.limiter.threshold.value = -4.5;
+        this.limiter.knee.value = 4.0;
         this.limiter.ratio.value = 14.0;
         this.limiter.attack.value = 0.002;
-        this.limiter.release.value = 0.12;
+        this.limiter.release.value = 0.10;
 
         this.analyser = this.ctx.createAnalyser();
         this.analyser.fftSize = 256;
         this.analyser.smoothingTimeConstant = 0.82;
 
-        // SP-404 Sidechain Ducking Gain Node on the Melodic/Chord Bus!
-        // When a heavy kick hits, sidechainGain briefly ducks so the kick punches cleanly through
+        // SP-404 Sidechain Ducking Gain Node on the Melodic Bus!
         this.sidechainGain = this.ctx.createGain();
         this.sidechainGain.gain.value = 1.0;
 
-        // Warm Dynamic Lowpass Filter on Melodic Bus (sweeps across song sections)
+        // Warm Dynamic Lowpass Filter on Melodic Bus (sweeps across sections)
         this.warmFilter = this.ctx.createBiquadFilter();
         this.warmFilter.type = 'lowpass';
         this.warmFilter.frequency.value = 2900;
@@ -862,24 +1021,40 @@
 
         // Stereo Reverb
         this.convolver = this.ctx.createConvolver();
-        this.convolver.buffer = this.createSmoothReverb(2.1, 2.7);
+        this.convolver.buffer = this.createSmoothReverb(2.2, 2.8);
         this.reverbGain = this.ctx.createGain();
         this.reverbGain.gain.value = 0.22;
+
+        // Tempo-Synced Tape Delay Send & Feedback Loop with warm damping!
+        this.delayNode = this.ctx.createDelay(2.0);
+        this.delayNode.delayTime.value = 0.35;
+        this.delayFeedback = this.ctx.createGain();
+        this.delayFeedback.gain.value = 0.32;
+        this.delayFilter = this.ctx.createBiquadFilter();
+        this.delayFilter.type = 'lowpass';
+        this.delayFilter.frequency.value = 2200; // Warm tape damping
+        this.delayReturn = this.ctx.createGain();
+        this.delayReturn.gain.value = 0.26;
+
+        this.delayNode.connect(this.delayFilter);
+        this.delayFilter.connect(this.delayFeedback);
+        this.delayFeedback.connect(this.delayNode);
+        this.delayFilter.connect(this.delayReturn);
+        this.delayReturn.connect(this.warmFilter);
 
         this.musicBus = this.ctx.createGain();
         this.musicBus.gain.value = 0.82;
 
-        // Dedicated Drum Bus with a Warm 62 Hz Sub-Punch EQ Boost
+        // Dedicated Drum Bus with Sub-Punch EQ Boost
         this.drumBus = this.ctx.createGain();
         this.drumBus.gain.value = 0.95;
 
         this.drumSubBoost = this.ctx.createBiquadFilter();
         this.drumSubBoost.type = 'lowshelf';
         this.drumSubBoost.frequency.value = 85;
-        this.drumSubBoost.gain.value = 3.5; // Warm chest thump without clipping
+        this.drumSubBoost.gain.value = 3.5;
 
         // Connect Melodic Chain:
-        // musicBus -> warmFilter -> sidechainGain -> limiter
         this.musicBus.connect(this.warmFilter);
         this.musicBus.connect(this.convolver);
         this.convolver.connect(this.reverbGain);
@@ -888,7 +1063,6 @@
         this.sidechainGain.connect(this.limiter);
 
         // Connect Drum Chain:
-        // drumBus -> drumSubBoost -> limiter
         this.drumBus.connect(this.drumSubBoost);
         this.drumSubBoost.connect(this.limiter);
 
@@ -896,9 +1070,10 @@
         this.analyser.connect(this.masterGain);
         this.masterGain.connect(this.ctx.destination);
 
-        this.pinkNoiseBuffer = this.createPinkNoiseBuffer(2.5);
-        this.whiteNoiseBuffer = this.createWhiteNoiseBuffer(1.5);
-        this.startGentleAmbience();
+        this.pinkNoiseBuffer = this.createPinkNoiseBuffer(3.0);
+        this.whiteNoiseBuffer = this.createWhiteNoiseBuffer(2.0);
+
+        this.initAmbienceEngine();
       }
 
       createSmoothReverb(duration, decay) {
@@ -940,85 +1115,362 @@
         return buf;
       }
 
-      startGentleAmbience() {
+      initAmbienceEngine() {
         const src = this.ctx.createBufferSource();
         src.buffer = this.pinkNoiseBuffer;
         src.loop = true;
 
-        const lp = this.ctx.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.frequency.value = 1050;
+        this.ambienceFilter = this.ctx.createBiquadFilter();
+        this.ambienceFilter.type = 'lowpass';
+        this.ambienceFilter.frequency.value = 950;
 
         this.ambienceGain = this.ctx.createGain();
         this.ambienceGain.gain.value = 0;
 
-        src.connect(lp);
-        lp.connect(this.ambienceGain);
+        src.connect(this.ambienceFilter);
+        this.ambienceFilter.connect(this.ambienceGain);
         this.ambienceGain.connect(this.limiter);
         src.start();
+      }
+
+      updateAmbienceForSong(song) {
+        if (!this.ctx || !this.ambienceFilter) return;
+        const type = song.ambientType || 'vinylDust';
+        if (type === 'vinylDust') {
+          this.ambienceFilter.type = 'bandpass';
+          this.ambienceFilter.frequency.setTargetAtTime(1100, this.ctx.currentTime, 0.4);
+          this.ambienceFilter.Q.setTargetAtTime(0.65, this.ctx.currentTime, 0.4);
+        } else if (type === 'rain') {
+          this.ambienceFilter.type = 'lowpass';
+          this.ambienceFilter.frequency.setTargetAtTime(2200, this.ctx.currentTime, 0.4);
+        } else if (type === 'tapeHiss') {
+          this.ambienceFilter.type = 'bandpass';
+          this.ambienceFilter.frequency.setTargetAtTime(2600, this.ctx.currentTime, 0.4);
+          this.ambienceFilter.Q.setTargetAtTime(0.8, this.ctx.currentTime, 0.4);
+        } else if (type === 'nightBreeze') {
+          this.ambienceFilter.type = 'lowpass';
+          this.ambienceFilter.frequency.setTargetAtTime(700, this.ctx.currentTime, 0.4);
+        } else {
+          this.ambienceFilter.type = 'lowpass';
+          this.ambienceFilter.frequency.setTargetAtTime(550, this.ctx.currentTime, 0.4);
+        }
+      }
+
+      playVinylDustPop(time) {
+        if (!this.ctx) return;
+        const pop = this.ctx.createBufferSource();
+        pop.buffer = this.whiteNoiseBuffer;
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 1600 + Math.random() * 2200;
+        bp.Q.value = 3.5;
+        const g = this.ctx.createGain();
+        const pk = 0.009 + Math.random() * 0.012;
+        g.gain.setValueAtTime(pk, time);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.006);
+
+        pop.connect(bp);
+        bp.connect(g);
+        g.connect(this.limiter);
+        pop.start(time);
+        pop.stop(time + 0.01);
+      }
+
+      playRainDrop(time) {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = 'sine';
+        const start = 2200 + Math.random() * 1200;
+        osc.frequency.setValueAtTime(start, time);
+        osc.frequency.exponentialRampToValueAtTime(750, time + 0.014);
+
+        g.gain.setValueAtTime(0.006, time);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.016);
+
+        osc.connect(g);
+        g.connect(this.limiter);
+        osc.start(time);
+        osc.stop(time + 0.02);
       }
 
       midiToFreq(m) {
         return 440 * Math.pow(2, (m - 69) / 12);
       }
 
-      // --- CHORD SYNTHESIZER ---
-      playChordVoice(midi, time, duration, inst) {
+      // --- ADVANCED CHORD SYNTHESIS: Distinct Physical & Electronic Models ---
+      playChordVoice(midi, time, duration, inst, velScale = 1.0) {
         if (!this.ctx) return;
-        const freq = this.midiToFreq(midi);
-        const vGain = this.ctx.createGain();
-        vGain.connect(this.musicBus);
+        const baseFreq = this.midiToFreq(midi);
+        const drift = (Math.sin(time * 2.5 + midi) * 0.0018 + (Math.random() - 0.5) * 0.0012);
+        const freq = baseFreq * (1 + drift);
 
-        const osc1 = this.ctx.createOscillator();
-        const osc2 = this.ctx.createOscillator();
+        const voiceGain = this.ctx.createGain();
+        voiceGain.connect(this.musicBus);
 
-        if (inst === 'rhodes' || inst === 'vibraphone') {
+        if (inst === 'rhodes') {
+          // Authentic FM Vintage Rhodes: Carrier + Bell Tine Modulator + Body Tremolo
+          const carrier = this.ctx.createOscillator();
+          const modulator = this.ctx.createOscillator();
+          const modGain = this.ctx.createGain();
+          const subBody = this.ctx.createOscillator();
+          const subGain = this.ctx.createGain();
+
+          carrier.type = 'sine';
+          carrier.frequency.setValueAtTime(freq, time);
+
+          modulator.type = 'sine';
+          modulator.frequency.setValueAtTime(freq * 3.0, time);
+
+          const modDepth = freq * 1.6 * velScale;
+          modGain.gain.setValueAtTime(modDepth, time);
+          modGain.gain.exponentialRampToValueAtTime(freq * 0.04, time + 0.12);
+          modGain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+          modulator.connect(modGain);
+          modGain.connect(carrier.frequency);
+
+          subBody.type = 'triangle';
+          subBody.frequency.setValueAtTime(freq * 2.0, time);
+          subGain.gain.setValueAtTime(0.0001, time);
+          subGain.gain.linearRampToValueAtTime(0.012 * velScale, time + 0.02);
+          subGain.gain.exponentialRampToValueAtTime(0.0001, time + duration * 0.7);
+
+          const peak = 0.038 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.018);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.42, time + duration * 0.5);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.15);
+
+          carrier.connect(voiceGain);
+          subBody.connect(subGain);
+          subGain.connect(voiceGain);
+
+          carrier.start(time);
+          modulator.start(time);
+          subBody.start(time);
+          carrier.stop(time + duration + 0.2);
+          modulator.stop(time + duration + 0.2);
+          subBody.stop(time + duration + 0.2);
+
+        } else if (inst === 'feltPiano') {
+          // Intimate Acoustic Felt Piano: dual detuned oscs + felt hammer impact noise
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const warmLp = this.ctx.createBiquadFilter();
+
           osc1.type = 'sine';
           osc2.type = 'triangle';
-          osc1.frequency.setValueAtTime(freq, time);
-          osc2.frequency.setValueAtTime(freq * (inst === 'vibraphone' ? 4 : 2), time);
+          osc1.frequency.setValueAtTime(freq * 0.9992, time);
+          osc2.frequency.setValueAtTime(freq * 1.0012, time);
+
+          warmLp.type = 'lowpass';
+          warmLp.frequency.setValueAtTime(1450, time);
+          warmLp.frequency.exponentialRampToValueAtTime(680, time + duration);
+
+          // Felt hammer impact
+          const hammer = this.ctx.createBufferSource();
+          hammer.buffer = this.pinkNoiseBuffer;
+          const hammerBp = this.ctx.createBiquadFilter();
+          hammerBp.type = 'bandpass';
+          hammerBp.frequency.value = 190;
+          hammerBp.Q.value = 2.4;
+          const hammerGain = this.ctx.createGain();
+          hammerGain.gain.setValueAtTime(0.024 * velScale, time);
+          hammerGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.028);
+
+          hammer.connect(hammerBp);
+          hammerBp.connect(hammerGain);
+          hammerGain.connect(voiceGain);
+
+          const peak = 0.036 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.022);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.32, time + duration * 0.6);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+          osc1.connect(warmLp);
+          osc2.connect(warmLp);
+          warmLp.connect(voiceGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          hammer.start(time);
+          osc1.stop(time + duration + 0.2);
+          osc2.stop(time + duration + 0.2);
+          hammer.stop(time + 0.035);
+
+        } else if (inst === 'warmSynth') {
+          // Analog Polysynth Pad: detuned saws + resonant 24dB lowpass envelope
+          const saw1 = this.ctx.createOscillator();
+          const saw2 = this.ctx.createOscillator();
+          const padFilter = this.ctx.createBiquadFilter();
+
+          saw1.type = 'sawtooth';
+          saw2.type = 'triangle';
+          saw1.frequency.setValueAtTime(freq * 0.9975, time);
+          saw2.frequency.setValueAtTime(freq * 1.0025, time);
+
+          padFilter.type = 'lowpass';
+          padFilter.frequency.setValueAtTime(650, time);
+          padFilter.frequency.linearRampToValueAtTime(1950, time + 0.15);
+          padFilter.frequency.exponentialRampToValueAtTime(800, time + duration);
+          padFilter.Q.value = 1.2;
+
+          const peak = 0.028 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.06);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.5, time + duration * 0.65);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.2);
+
+          saw1.connect(padFilter);
+          saw2.connect(padFilter);
+          padFilter.connect(voiceGain);
+
+          saw1.start(time);
+          saw2.start(time);
+          saw1.stop(time + duration + 0.25);
+          saw2.stop(time + duration + 0.25);
+
         } else if (inst === 'nylonGuitar') {
-          osc1.type = 'triangle';
-          osc2.type = 'sine';
-          osc1.frequency.setValueAtTime(freq, time);
-          osc2.frequency.setValueAtTime(freq * 2, time);
+          // Plucked Nylon String: triangle body + string click + body resonator
+          const str = this.ctx.createOscillator();
+          const harm = this.ctx.createOscillator();
+          const bodyRes = this.ctx.createBiquadFilter();
+
+          str.type = 'triangle';
+          harm.type = 'sine';
+          str.frequency.setValueAtTime(freq, time);
+          harm.frequency.setValueAtTime(freq * 2.0, time);
+
+          bodyRes.type = 'peaking';
+          bodyRes.frequency.value = 440;
+          bodyRes.Q.value = 2.0;
+          bodyRes.gain.value = 5.0;
+
+          // Pluck click
+          const pluck = this.ctx.createBufferSource();
+          pluck.buffer = this.whiteNoiseBuffer;
+          const pFilter = this.ctx.createBiquadFilter();
+          pFilter.type = 'highpass';
+          pFilter.frequency.value = 2600;
+          const pGain = this.ctx.createGain();
+          pGain.gain.setValueAtTime(0.016 * velScale, time);
+          pGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.012);
+
+          pluck.connect(pFilter);
+          pFilter.connect(pGain);
+          pGain.connect(voiceGain);
+
+          const peak = 0.034 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.008);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.28, time + 0.25);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.1);
+
+          str.connect(bodyRes);
+          harm.connect(bodyRes);
+          bodyRes.connect(voiceGain);
+
+          str.start(time);
+          harm.start(time);
+          pluck.start(time);
+          str.stop(time + duration + 0.15);
+          harm.stop(time + duration + 0.15);
+          pluck.stop(time + 0.02);
+
+        } else if (inst === 'wurlitzer') {
+          // Vintage Wurlitzer Reed Piano: square + triangle blend with built-in tremolo
+          const oscSq = this.ctx.createOscillator();
+          const oscTri = this.ctx.createOscillator();
+          const sqGain = this.ctx.createGain();
+          const triGain = this.ctx.createGain();
+
+          oscSq.type = 'square';
+          oscTri.type = 'triangle';
+          oscSq.frequency.setValueAtTime(freq, time);
+          oscTri.frequency.setValueAtTime(freq, time);
+
+          sqGain.gain.value = 0.22;
+          triGain.gain.value = 0.78;
+
+          const trem = this.ctx.createOscillator();
+          const tremGain = this.ctx.createGain();
+          trem.frequency.value = 4.8;
+          tremGain.gain.value = 0.008 * velScale;
+          trem.connect(tremGain);
+          tremGain.connect(voiceGain.gain);
+
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(2400, time);
+          filter.frequency.exponentialRampToValueAtTime(1100, time + duration);
+
+          const peak = 0.032 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.016);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.38, time + duration * 0.6);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.14);
+
+          oscSq.connect(sqGain);
+          oscTri.connect(triGain);
+          sqGain.connect(filter);
+          triGain.connect(filter);
+          filter.connect(voiceGain);
+
+          oscSq.start(time);
+          oscTri.start(time);
+          trem.start(time);
+          oscSq.stop(time + duration + 0.2);
+          oscTri.stop(time + duration + 0.2);
+          trem.stop(time + duration + 0.2);
+
         } else {
-          osc1.type = 'sine';
-          osc2.type = 'triangle';
-          osc1.frequency.setValueAtTime(freq, time);
-          osc2.frequency.setValueAtTime(freq * 1.002, time);
+          // Lush Silk Pad (default & warmPad)
+          const pOsc1 = this.ctx.createOscillator();
+          const pOsc2 = this.ctx.createOscillator();
+          const pSub = this.ctx.createOscillator();
+          pOsc1.type = 'triangle';
+          pOsc2.type = 'sine';
+          pSub.type = 'sine';
+          pOsc1.frequency.setValueAtTime(freq * 0.999, time);
+          pOsc2.frequency.setValueAtTime(freq * 1.001, time);
+          pSub.frequency.setValueAtTime(freq * 0.5, time);
+
+          const padLp = this.ctx.createBiquadFilter();
+          padLp.type = 'lowpass';
+          padLp.frequency.setValueAtTime(900, time);
+          padLp.frequency.linearRampToValueAtTime(1600, time + duration * 0.5);
+          padLp.frequency.exponentialRampToValueAtTime(750, time + duration);
+
+          const peak = 0.026 * velScale;
+          voiceGain.gain.setValueAtTime(0.0001, time);
+          voiceGain.gain.linearRampToValueAtTime(peak, time + 0.14);
+          voiceGain.gain.exponentialRampToValueAtTime(peak * 0.6, time + duration * 0.7);
+          voiceGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.25);
+
+          pOsc1.connect(padLp);
+          pOsc2.connect(padLp);
+          pSub.connect(padLp);
+          padLp.connect(voiceGain);
+
+          pOsc1.start(time);
+          pOsc2.start(time);
+          pSub.start(time);
+          pOsc1.stop(time + duration + 0.3);
+          pOsc2.stop(time + duration + 0.3);
+          pSub.stop(time + duration + 0.3);
         }
-
-        const osc2Gain = this.ctx.createGain();
-        osc2Gain.gain.setValueAtTime(inst === 'vibraphone' ? 0.07 : 0.16, time);
-        osc2Gain.gain.exponentialRampToValueAtTime(0.008, time + duration);
-
-        const attack = inst === 'warmPad' ? 0.16 : 0.025;
-        const peakGain = 0.030;
-
-        vGain.gain.setValueAtTime(0.0001, time);
-        vGain.gain.linearRampToValueAtTime(peakGain, time + attack);
-        vGain.gain.exponentialRampToValueAtTime(peakGain * 0.35, time + duration * 0.65);
-        vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.15);
-
-        osc1.connect(vGain);
-        osc2.connect(osc2Gain);
-        osc2Gain.connect(vGain);
-
-        osc1.start(time);
-        osc2.start(time);
-        osc1.stop(time + duration + 0.2);
-        osc2.stop(time + duration + 0.2);
       }
 
       playFullChord(chordObj, time, duration, song, velScale = 1.0) {
         const strumSec = song.strumMs / 1000;
         chordObj.midiNotes.forEach((midi, idx) => {
-          this.playChordVoice(midi, time + idx * strumSec, duration * velScale, song.chordInst);
+          this.playChordVoice(midi, time + idx * strumSec, duration * velScale, song.chordInst, velScale);
         });
       }
 
-      // --- LEAD & COUNTER-MELODY VOICE ---
+      // --- ADVANCED LEAD SYNTHESIS: Distinct Formants, Overtones & Delay Send ---
       playMelodyVoice(midi, time, duration, inst, gainScale = 1.0, slide = false) {
         if (!this.ctx) return;
         const targetFreq = this.midiToFreq(midi);
@@ -1026,149 +1478,695 @@
         const vGain = this.ctx.createGain();
         vGain.connect(this.musicBus);
 
-        const osc = this.ctx.createOscillator();
-        const overtone = this.ctx.createOscillator();
-        osc.type = (inst === 'softHorn' || inst === 'woodenFlute') ? 'triangle' : 'sine';
-        overtone.type = 'sine';
-
-        osc.frequency.setValueAtTime(startFreq, time);
-        if (slide) {
-          osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.05);
+        // Send a portion of melody to the Tape Delay loop!
+        if (this.delayNode) {
+          const dSend = this.ctx.createGain();
+          dSend.gain.value = 0.26;
+          vGain.connect(dSend);
+          dSend.connect(this.delayNode);
         }
-        overtone.frequency.setValueAtTime(targetFreq * (inst === 'musicBox' ? 3 : 2), time);
 
-        const vib = this.ctx.createOscillator();
-        const vibGain = this.ctx.createGain();
-        vib.frequency.value = 4.8;
-        vibGain.gain.setValueAtTime(0.01, time);
-        vibGain.gain.linearRampToValueAtTime(targetFreq * 0.004, time + duration * 0.6);
-        vib.connect(vibGain);
-        vibGain.connect(osc.frequency);
+        if (inst === 'softHorn') {
+          // Muted Jazz Horn: dual bandpass formant filters + breath noise + delayed vibrato
+          const osc = this.ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(startFreq, time);
+          if (slide) osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.05);
 
-        const ovGain = this.ctx.createGain();
-        ovGain.gain.setValueAtTime(0.11, time);
-        ovGain.gain.exponentialRampToValueAtTime(0.004, time + duration * 0.5);
+          const f1 = this.ctx.createBiquadFilter();
+          f1.type = 'bandpass';
+          f1.frequency.value = 950;
+          f1.Q.value = 3.2;
 
-        const lp = this.ctx.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.frequency.setValueAtTime(targetFreq * 3.0, time);
-        lp.frequency.exponentialRampToValueAtTime(targetFreq * 1.4, time + duration);
+          const f2 = this.ctx.createBiquadFilter();
+          f2.type = 'bandpass';
+          f2.frequency.value = 2350;
+          f2.Q.value = 2.8;
 
-        const attack = (inst === 'softHorn' || inst === 'woodenFlute') ? 0.04 : 0.016;
-        const peak = 0.048 * gainScale;
+          // Breath noise
+          const breath = this.ctx.createBufferSource();
+          breath.buffer = this.pinkNoiseBuffer;
+          const bFilter = this.ctx.createBiquadFilter();
+          bFilter.type = 'bandpass';
+          bFilter.frequency.value = 1600;
+          bFilter.Q.value = 1.8;
+          const bGain = this.ctx.createGain();
+          bGain.gain.setValueAtTime(0.012 * gainScale, time);
+          bGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.06);
 
-        vGain.gain.setValueAtTime(0.0001, time);
-        vGain.gain.linearRampToValueAtTime(peak, time + attack);
-        vGain.gain.exponentialRampToValueAtTime(peak * 0.4, time + duration * 0.7);
-        vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+          breath.connect(bFilter);
+          bFilter.connect(bGain);
+          bGain.connect(vGain);
 
-        osc.connect(lp);
-        overtone.connect(ovGain);
-        ovGain.connect(lp);
-        lp.connect(vGain);
+          // Delayed lyrical vibrato
+          const vib = this.ctx.createOscillator();
+          const vibGain = this.ctx.createGain();
+          vib.frequency.value = 5.2;
+          vibGain.gain.setValueAtTime(0.0001, time);
+          vibGain.gain.linearRampToValueAtTime(targetFreq * 0.005, time + duration * 0.6);
+          vib.connect(vibGain);
+          vibGain.connect(osc.frequency);
 
-        osc.start(time);
-        overtone.start(time);
-        vib.start(time);
-        osc.stop(time + duration + 0.15);
-        overtone.stop(time + duration + 0.15);
-        vib.stop(time + duration + 0.15);
+          const peak = 0.046 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.045);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.45, time + duration * 0.7);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+          osc.connect(f1);
+          osc.connect(f2);
+          f1.connect(vGain);
+          f2.connect(vGain);
+
+          osc.start(time);
+          vib.start(time);
+          breath.start(time);
+          osc.stop(time + duration + 0.15);
+          vib.stop(time + duration + 0.15);
+          breath.stop(time + 0.08);
+
+        } else if (inst === 'jazzGuitar') {
+          // Archtop Hollowbody Guitar: plectrum transient + body cavity peak filter
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+          osc1.frequency.setValueAtTime(startFreq, time);
+          osc2.frequency.setValueAtTime(targetFreq * 2.0, time);
+          if (slide) osc1.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.04);
+
+          const body = this.ctx.createBiquadFilter();
+          body.type = 'peaking';
+          body.frequency.value = 460;
+          body.Q.value = 2.4;
+          body.gain.value = 6.0;
+
+          // Plectrum click
+          const click = this.ctx.createBufferSource();
+          click.buffer = this.whiteNoiseBuffer;
+          const cFilter = this.ctx.createBiquadFilter();
+          cFilter.type = 'bandpass';
+          cFilter.frequency.value = 3200;
+          const cGain = this.ctx.createGain();
+          cGain.gain.setValueAtTime(0.02 * gainScale, time);
+          cGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.01);
+
+          click.connect(cFilter);
+          cFilter.connect(cGain);
+          cGain.connect(vGain);
+
+          const peak = 0.042 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.012);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.35, time + duration * 0.5);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.1);
+
+          osc1.connect(body);
+          osc2.connect(body);
+          body.connect(vGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          click.start(time);
+          osc1.stop(time + duration + 0.12);
+          osc2.stop(time + duration + 0.12);
+          click.stop(time + 0.02);
+
+        } else if (inst === 'vibraphone') {
+          // Vibraphone: 3.98x metal bar partial + 5.6Hz spinning motor tremolo
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const o2Gain = this.ctx.createGain();
+
+          osc1.type = 'sine';
+          osc2.type = 'sine';
+          osc1.frequency.setValueAtTime(targetFreq, time);
+          osc2.frequency.setValueAtTime(targetFreq * 3.98, time);
+
+          o2Gain.gain.setValueAtTime(0.18, time);
+          o2Gain.gain.exponentialRampToValueAtTime(0.001, time + 0.24);
+
+          // Motor tremolo (5.6 Hz amplitude modulation)
+          const trem = this.ctx.createOscillator();
+          const tremG = this.ctx.createGain();
+          trem.frequency.value = 5.6;
+          tremG.gain.value = 0.01 * gainScale;
+          trem.connect(tremG);
+          tremG.connect(vGain.gain);
+
+          const peak = 0.044 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.008);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.4, time + duration * 0.7);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.18);
+
+          osc1.connect(vGain);
+          osc2.connect(o2Gain);
+          o2Gain.connect(vGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          trem.start(time);
+          osc1.stop(time + duration + 0.2);
+          osc2.stop(time + duration + 0.2);
+          trem.stop(time + duration + 0.2);
+
+        } else if (inst === 'woodenFlute') {
+          // Bamboo Flute: chiff breath burst + 30-cent pitch scoop + singing vibrato
+          const osc = this.ctx.createOscillator();
+          const oct = this.ctx.createOscillator();
+          osc.type = 'triangle';
+          oct.type = 'sine';
+
+          const scoopStart = targetFreq * 0.98;
+          osc.frequency.setValueAtTime(scoopStart, time);
+          osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.04);
+          oct.frequency.setValueAtTime(targetFreq * 2.0, time);
+
+          // Chiff attack
+          const chiff = this.ctx.createBufferSource();
+          chiff.buffer = this.whiteNoiseBuffer;
+          const chFilter = this.ctx.createBiquadFilter();
+          chFilter.type = 'bandpass';
+          chFilter.frequency.value = 2100;
+          chFilter.Q.value = 2.0;
+          const chGain = this.ctx.createGain();
+          chGain.gain.setValueAtTime(0.016 * gainScale, time);
+          chGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.038);
+
+          chiff.connect(chFilter);
+          chFilter.connect(chGain);
+          chGain.connect(vGain);
+
+          const vib = this.ctx.createOscillator();
+          const vibG = this.ctx.createGain();
+          vib.frequency.value = 4.9;
+          vibG.gain.setValueAtTime(0.0001, time);
+          vibG.gain.linearRampToValueAtTime(targetFreq * 0.006, time + duration * 0.5);
+          vib.connect(vibG);
+          vibG.connect(osc.frequency);
+
+          const peak = 0.045 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.035);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.45, time + duration * 0.65);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+          osc.connect(vGain);
+          oct.connect(vGain);
+
+          osc.start(time);
+          oct.start(time);
+          vib.start(time);
+          chiff.start(time);
+          osc.stop(time + duration + 0.15);
+          oct.stop(time + duration + 0.15);
+          vib.stop(time + duration + 0.15);
+          chiff.stop(time + 0.05);
+
+        } else if (inst === 'kotoPluck') {
+          // Japanese Koto Zither: bright 1600Hz resonant pluck + singing woody decay
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          osc1.type = 'sawtooth';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(targetFreq, time);
+          osc2.frequency.setValueAtTime(targetFreq, time);
+
+          const res = this.ctx.createBiquadFilter();
+          res.type = 'bandpass';
+          res.frequency.value = 1600;
+          res.Q.value = 3.2;
+
+          const peak = 0.044 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.006);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.25, time + 0.22);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.1);
+
+          osc1.connect(res);
+          res.connect(vGain);
+          osc2.connect(vGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          osc1.stop(time + duration + 0.15);
+          osc2.stop(time + duration + 0.15);
+
+        } else if (inst === 'musicBox') {
+          // Kalimba Celeste Bell: inharmonic partials at 1.0x, 2.756x, 5.404x
+          const p1 = this.ctx.createOscillator();
+          const p2 = this.ctx.createOscillator();
+          const p3 = this.ctx.createOscillator();
+          const g2 = this.ctx.createGain();
+          const g3 = this.ctx.createGain();
+
+          p1.type = 'sine';
+          p2.type = 'sine';
+          p3.type = 'sine';
+          p1.frequency.setValueAtTime(targetFreq, time);
+          p2.frequency.setValueAtTime(targetFreq * 2.756, time);
+          p3.frequency.setValueAtTime(targetFreq * 5.404, time);
+
+          g2.gain.setValueAtTime(0.16, time);
+          g2.gain.exponentialRampToValueAtTime(0.001, time + 0.18);
+          g3.gain.setValueAtTime(0.08, time);
+          g3.gain.exponentialRampToValueAtTime(0.001, time + 0.09);
+
+          const peak = 0.042 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.005);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.3, time + duration * 0.6);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.14);
+
+          p1.connect(vGain);
+          p2.connect(g2);
+          g2.connect(vGain);
+          p3.connect(g3);
+          g3.connect(vGain);
+
+          p1.start(time);
+          p2.start(time);
+          p3.start(time);
+          p1.stop(time + duration + 0.18);
+          p2.stop(time + duration + 0.18);
+          p3.stop(time + duration + 0.18);
+
+        } else if (inst === 'sineLead') {
+          // Portamento Tape Lead: saturated sine with 40ms pitch glide
+          const osc = this.ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(startFreq, time);
+          if (slide) osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.045);
+
+          const vib = this.ctx.createOscillator();
+          const vibG = this.ctx.createGain();
+          vib.frequency.value = 4.6;
+          vibG.gain.value = targetFreq * 0.004;
+          vib.connect(vibG);
+          vibG.connect(osc.frequency);
+
+          const peak = 0.046 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.02);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.5, time + duration * 0.7);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+          osc.connect(vGain);
+          osc.start(time);
+          vib.start(time);
+          osc.stop(time + duration + 0.15);
+          vib.stop(time + duration + 0.15);
+
+        } else {
+          // Muted Jazz Sax: formant filter bank (650Hz, 1450Hz, 2800Hz) + breath
+          const osc = this.ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(startFreq, time);
+          if (slide) osc.frequency.exponentialRampToValueAtTime(targetFreq, time + 0.045);
+
+          const f1 = this.ctx.createBiquadFilter();
+          f1.type = 'bandpass';
+          f1.frequency.value = 650;
+          f1.Q.value = 2.6;
+
+          const f2 = this.ctx.createBiquadFilter();
+          f2.type = 'bandpass';
+          f2.frequency.value = 1450;
+          f2.Q.value = 2.4;
+
+          const peak = 0.044 * gainScale;
+          vGain.gain.setValueAtTime(0.0001, time);
+          vGain.gain.linearRampToValueAtTime(peak, time + 0.038);
+          vGain.gain.exponentialRampToValueAtTime(peak * 0.42, time + duration * 0.65);
+          vGain.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.12);
+
+          osc.connect(f1);
+          osc.connect(f2);
+          f1.connect(vGain);
+          f2.connect(vGain);
+
+          osc.start(time);
+          osc.stop(time + duration + 0.15);
+        }
       }
 
-      // --- ARPEGGIO PLUCK ---
-      playArpVoice(midi, time) {
+      // --- ADVANCED ARPEGGIO SYNTHESIS: Routed through Stereo Delay ---
+      playArpVoice(midi, time, inst = 'celeste') {
         if (!this.ctx) return;
         const freq = this.midiToFreq(midi);
         const osc = this.ctx.createOscillator();
         const g = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, time);
 
-        g.gain.setValueAtTime(0.0001, time);
-        g.gain.linearRampToValueAtTime(0.022, time + 0.01);
-        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.40);
+        // Send arps directly to tape delay send for ethereal floating ambience!
+        if (this.delayNode) {
+          const dSend = this.ctx.createGain();
+          dSend.gain.value = 0.38;
+          g.connect(dSend);
+          dSend.connect(this.delayNode);
+        }
 
-        osc.connect(g);
-        g.connect(this.musicBus);
-        osc.start(time);
-        osc.stop(time + 0.43);
+        if (inst === 'celeste') {
+          // Glass Bell Arp: crystalline sine with high shimmer
+          const overtone = this.ctx.createOscillator();
+          const ovG = this.ctx.createGain();
+          osc.type = 'sine';
+          overtone.type = 'sine';
+          osc.frequency.setValueAtTime(freq, time);
+          overtone.frequency.setValueAtTime(freq * 2.756, time);
+
+          ovG.gain.setValueAtTime(0.12, time);
+          ovG.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
+
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(0.024, time + 0.006);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + 0.42);
+
+          osc.connect(g);
+          overtone.connect(ovG);
+          ovG.connect(g);
+          g.connect(this.musicBus);
+
+          osc.start(time);
+          overtone.start(time);
+          osc.stop(time + 0.45);
+          overtone.stop(time + 0.45);
+
+        } else if (inst === 'kalimba') {
+          // Woody Kalimba: fast organic knock + bell ring
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, time);
+
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(0.026, time + 0.004);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+
+          osc.connect(g);
+          g.connect(this.musicBus);
+          osc.start(time);
+          osc.stop(time + 0.35);
+
+        } else if (inst === 'synthPluck') {
+          // Analog 24dB Resonant Saw Pluck
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, time);
+
+          const lp = this.ctx.createBiquadFilter();
+          lp.type = 'lowpass';
+          lp.frequency.setValueAtTime(freq * 6.0, time);
+          lp.frequency.exponentialRampToValueAtTime(freq * 1.2, time + 0.15);
+          lp.Q.value = 2.5;
+
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(0.022, time + 0.008);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + 0.35);
+
+          osc.connect(lp);
+          lp.connect(g);
+          g.connect(this.musicBus);
+          osc.start(time);
+          osc.stop(time + 0.38);
+
+        } else if (inst === 'acousticHarp') {
+          // Delicate Acoustic Harp Pluck
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, time);
+
+          const body = this.ctx.createBiquadFilter();
+          body.type = 'bandpass';
+          body.frequency.value = 1800;
+          body.Q.value = 1.6;
+
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(0.025, time + 0.005);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + 0.38);
+
+          osc.connect(body);
+          body.connect(g);
+          g.connect(this.musicBus);
+          osc.start(time);
+          osc.stop(time + 0.40);
+
+        } else {
+          // Cassette Bell Chime (tapeChime)
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, time);
+
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(0.022, time + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + 0.40);
+
+          osc.connect(g);
+          g.connect(this.musicBus);
+          osc.start(time);
+          osc.stop(time + 0.43);
+        }
       }
 
-      // --- DEEP LOFI BASSLINE ---
-      playBassVoice(midi, time, duration, isHeavy) {
+      // --- ADVANCED BASS SYNTHESIS: Distinct Acoustic, Moog, 808, and Electric Engines ---
+      playBassVoice(midi, time, duration, bassType = 'uprightJazz', isHeavy = false) {
         if (!this.ctx) return;
         const freq = this.midiToFreq(midi);
-        const sub = this.ctx.createOscillator();
-        const warm = this.ctx.createOscillator();
-        sub.type = 'sine';
-        warm.type = 'triangle';
-        sub.frequency.setValueAtTime(freq, time);
-        warm.frequency.setValueAtTime(freq, time);
-
-        const warmFilter = this.ctx.createBiquadFilter();
-        warmFilter.type = 'lowpass';
-        warmFilter.frequency.setValueAtTime(freq * 3.2, time);
-        warmFilter.frequency.exponentialRampToValueAtTime(freq * 1.5, time + 0.15);
-
-        const warmGain = this.ctx.createGain();
-        warmGain.gain.value = 0.25;
-
         const g = this.ctx.createGain();
-        const peak = isHeavy ? 0.145 : 0.115;
-        g.gain.setValueAtTime(0.0001, time);
-        g.gain.linearRampToValueAtTime(peak, time + 0.02);
-        g.gain.exponentialRampToValueAtTime(peak * 0.5, time + duration * 0.7);
-        g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.08);
-
-        sub.connect(g);
-        warm.connect(warmFilter);
-        warmFilter.connect(warmGain);
-        warmGain.connect(g);
         g.connect(this.musicBus);
 
-        sub.start(time);
-        warm.start(time);
-        sub.stop(time + duration + 0.1);
-        warm.stop(time + duration + 0.1);
+        if (bassType === 'sub808') {
+          // Deep 808 Sub: pitch drop at attack + soft harmonic saturation
+          const sub = this.ctx.createOscillator();
+          sub.type = 'sine';
+          sub.frequency.setValueAtTime(freq * 1.35, time);
+          sub.frequency.exponentialRampToValueAtTime(freq, time + 0.038);
+
+          const peak = isHeavy ? 0.16 : 0.13;
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(peak, time + 0.018);
+          g.gain.exponentialRampToValueAtTime(peak * 0.55, time + duration * 0.7);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.1);
+
+          sub.connect(g);
+          sub.start(time);
+          sub.stop(time + duration + 0.12);
+
+        } else if (bassType === 'uprightJazz') {
+          // Acoustic Woody Double Bass: finger slap transient + 170Hz body cavity filter
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          osc1.type = 'sine';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(freq, time);
+          osc2.frequency.setValueAtTime(freq, time);
+
+          const body = this.ctx.createBiquadFilter();
+          body.type = 'peaking';
+          body.frequency.value = 170;
+          body.Q.value = 2.6;
+          body.gain.value = 5.0;
+
+          // Finger slap click
+          const slap = this.ctx.createBufferSource();
+          slap.buffer = this.pinkNoiseBuffer;
+          const sFilter = this.ctx.createBiquadFilter();
+          sFilter.type = 'bandpass';
+          sFilter.frequency.value = 850;
+          const sGain = this.ctx.createGain();
+          sGain.gain.setValueAtTime(0.035, time);
+          sGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.015);
+
+          slap.connect(sFilter);
+          sFilter.connect(sGain);
+          sGain.connect(g);
+
+          const peak = isHeavy ? 0.14 : 0.11;
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(peak, time + 0.014);
+          g.gain.exponentialRampToValueAtTime(peak * 0.4, time + duration * 0.65);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.08);
+
+          osc1.connect(body);
+          osc2.connect(body);
+          body.connect(g);
+
+          osc1.start(time);
+          osc2.start(time);
+          slap.start(time);
+          osc1.stop(time + duration + 0.1);
+          osc2.stop(time + duration + 0.1);
+          slap.stop(time + 0.025);
+
+        } else if (bassType === 'moogSaw') {
+          // Resonant Moog Saw Bass: saw + square with 24dB lowpass envelope sweep
+          const saw = this.ctx.createOscillator();
+          const sq = this.ctx.createOscillator();
+          saw.type = 'sawtooth';
+          sq.type = 'square';
+          saw.frequency.setValueAtTime(freq, time);
+          sq.frequency.setValueAtTime(freq * 0.5, time); // Sub-octave square
+
+          const moogFilter = this.ctx.createBiquadFilter();
+          moogFilter.type = 'lowpass';
+          moogFilter.frequency.setValueAtTime(freq * 7.0, time);
+          moogFilter.frequency.exponentialRampToValueAtTime(freq * 1.6, time + 0.12);
+          moogFilter.Q.value = 3.0;
+
+          const peak = isHeavy ? 0.13 : 0.105;
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(peak, time + 0.015);
+          g.gain.exponentialRampToValueAtTime(peak * 0.45, time + duration * 0.65);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.09);
+
+          saw.connect(moogFilter);
+          sq.connect(moogFilter);
+          moogFilter.connect(g);
+
+          saw.start(time);
+          sq.start(time);
+          saw.stop(time + duration + 0.1);
+          sq.stop(time + duration + 0.1);
+
+        } else if (bassType === 'pickedElectric') {
+          // Picked Electric P-Bass: pick click + 650Hz mid punch + round low end
+          const pSub = this.ctx.createOscillator();
+          const pTri = this.ctx.createOscillator();
+          pSub.type = 'sine';
+          pTri.type = 'triangle';
+          pSub.frequency.setValueAtTime(freq, time);
+          pTri.frequency.setValueAtTime(freq, time);
+
+          const midPunch = this.ctx.createBiquadFilter();
+          midPunch.type = 'peaking';
+          midPunch.frequency.value = 650;
+          midPunch.gain.value = 6.0;
+
+          // Pick click
+          const pick = this.ctx.createBufferSource();
+          pick.buffer = this.whiteNoiseBuffer;
+          const pkFilt = this.ctx.createBiquadFilter();
+          pkFilt.type = 'bandpass';
+          pkFilt.frequency.value = 1800;
+          const pkGain = this.ctx.createGain();
+          pkGain.gain.setValueAtTime(0.03, time);
+          pkGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.012);
+
+          pick.connect(pkFilt);
+          pkFilt.connect(pkGain);
+          pkGain.connect(g);
+
+          const peak = isHeavy ? 0.135 : 0.11;
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(peak, time + 0.012);
+          g.gain.exponentialRampToValueAtTime(peak * 0.48, time + duration * 0.7);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.08);
+
+          pSub.connect(midPunch);
+          pTri.connect(midPunch);
+          midPunch.connect(g);
+
+          pSub.start(time);
+          pTri.start(time);
+          pick.start(time);
+          pSub.stop(time + duration + 0.1);
+          pTri.stop(time + duration + 0.1);
+          pick.stop(time + 0.02);
+
+        } else {
+          // Singing Fretless Bass: smooth triangle + gentle vibrato
+          const fOsc = this.ctx.createOscillator();
+          fOsc.type = 'triangle';
+          fOsc.frequency.setValueAtTime(freq, time);
+
+          const vib = this.ctx.createOscillator();
+          const vibG = this.ctx.createGain();
+          vib.frequency.value = 4.4;
+          vibG.gain.value = freq * 0.005;
+          vib.connect(vibG);
+          vibG.connect(fOsc.frequency);
+
+          const lp = this.ctx.createBiquadFilter();
+          lp.type = 'lowpass';
+          lp.frequency.value = freq * 3.5;
+
+          const peak = isHeavy ? 0.125 : 0.10;
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(peak, time + 0.02);
+          g.gain.exponentialRampToValueAtTime(peak * 0.5, time + duration * 0.75);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + duration + 0.08);
+
+          fOsc.connect(lp);
+          lp.connect(g);
+          fOsc.start(time);
+          vib.start(time);
+          fOsc.stop(time + duration + 0.1);
+          vib.stop(time + duration + 0.1);
+        }
       }
 
-      // --- HEAVY, PUNCHY LOFI KICK + SP-404 SIDECHAIN PUMP ---
+      // --- ADVANCED DRUM SYNTHESIS: Distinct Kicks, Snares, Hats & Shakers ---
       playKick(time, vel, weight, kit) {
         if (!this.ctx) return;
         const isHeavy = (weight === 'heavy' || weight === 'medium-heavy');
-        const punchMul = weight === 'heavy' ? 1.32 : (weight === 'medium-heavy' ? 1.15 : 0.9);
+        const punchMul = weight === 'heavy' ? 1.30 : (weight === 'punchy' ? 1.18 : 0.95);
 
-        // 1. Sub-Bass Drum Body (155 Hz -> 48 Hz -> 34 Hz)
+        // Sub Body Oscillator
         const subOsc = this.ctx.createOscillator();
         const subGain = this.ctx.createGain();
         subOsc.type = 'sine';
 
-        const startHz = kit === 'heavySp404' ? 158 : (kit === 'heavyBoombap' ? 148 : 130);
+        let startHz = 158;
+        let endHz = 48;
+        let tailHz = 35;
+        let decaySec = 0.30;
+
+        if (kit === 'heavySp404') {
+          startHz = 175;
+          endHz = 46;
+          tailHz = 34;
+        } else if (kit === 'heavyBoombap') {
+          startHz = 145;
+          endHz = 52;
+          tailHz = 38;
+          decaySec = 0.32;
+        } else if (kit === 'punchyChillhop') {
+          startHz = 135;
+          endHz = 55;
+          tailHz = 42;
+          decaySec = 0.22;
+        } else if (kit === 'brushGroove' || kit === 'cozyAcoustic') {
+          startHz = 110;
+          endHz = 48;
+          tailHz = 38;
+          decaySec = 0.24;
+        } else if (kit === 'bedroomLofi') {
+          startHz = 120;
+          endHz = 40;
+          tailHz = 32;
+          decaySec = 0.35;
+        }
+
         subOsc.frequency.setValueAtTime(startHz, time);
-        subOsc.frequency.exponentialRampToValueAtTime(50, time + 0.055);
-        subOsc.frequency.exponentialRampToValueAtTime(35, time + 0.30);
+        subOsc.frequency.exponentialRampToValueAtTime(endHz, time + 0.055);
+        subOsc.frequency.exponentialRampToValueAtTime(tailHz, time + decaySec);
 
         const subPeak = Math.min(0.38, vel * 0.28 * punchMul);
         subGain.gain.setValueAtTime(0.0001, time);
         subGain.gain.linearRampToValueAtTime(subPeak, time + 0.005);
         subGain.gain.exponentialRampToValueAtTime(subPeak * 0.45, time + 0.12);
-        subGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+        subGain.gain.exponentialRampToValueAtTime(0.0001, time + decaySec + 0.02);
 
         subOsc.connect(subGain);
         subGain.connect(this.drumBus);
         subOsc.start(time);
-        subOsc.stop(time + 0.34);
+        subOsc.stop(time + decaySec + 0.04);
 
-        // 2. Mid-Low Beater Knock Layer (gives audible chest thump on all speakers)
+        // Beater knock / click transient layer
         const knockOsc = this.ctx.createOscillator();
         const knockFilter = this.ctx.createBiquadFilter();
         const knockGain = this.ctx.createGain();
         knockOsc.type = 'triangle';
-        knockOsc.frequency.setValueAtTime(290, time);
+        knockOsc.frequency.setValueAtTime(kit === 'heavySp404' ? 320 : 250, time);
         knockOsc.frequency.exponentialRampToValueAtTime(68, time + 0.038);
 
         knockFilter.type = 'lowpass';
-        knockFilter.frequency.value = 420;
+        knockFilter.frequency.value = kit === 'heavySp404' ? 550 : 380;
 
         const knockPeak = vel * 0.14 * punchMul;
         knockGain.gain.setValueAtTime(0.0001, time);
@@ -1181,97 +2179,151 @@
         knockOsc.start(time);
         knockOsc.stop(time + 0.05);
 
-        // 3. Vinyl Felt Click Transient
-        if (isHeavy) {
+        // Vinyl felt click for heavy kits
+        if (isHeavy || kit === 'heavySp404') {
           const clickNoise = this.ctx.createBufferSource();
           clickNoise.buffer = this.pinkNoiseBuffer;
           const clickLp = this.ctx.createBiquadFilter();
           clickLp.type = 'bandpass';
-          clickLp.frequency.value = 950;
-          clickLp.Q.value = 1.2;
+          clickLp.frequency.value = 1100;
+          clickLp.Q.value = 1.4;
 
           const clickG = this.ctx.createGain();
-          clickG.gain.setValueAtTime(vel * 0.06, time);
-          clickG.gain.exponentialRampToValueAtTime(0.0001, time + 0.018);
+          clickG.gain.setValueAtTime(vel * 0.055, time);
+          clickG.gain.exponentialRampToValueAtTime(0.0001, time + 0.016);
 
           clickNoise.connect(clickLp);
           clickLp.connect(clickG);
           clickG.connect(this.drumBus);
           clickNoise.start(time);
-          clickNoise.stop(time + 0.022);
+          clickNoise.stop(time + 0.02);
         }
 
-        // 4. SP-404 Sidechain Compression Ducking on Music Bus!
-        if (this.sidechainGain && vel > 0.6) {
-          const duckDepth = weight === 'heavy' ? 0.54 : (weight === 'medium-heavy' ? 0.66 : 0.78);
+        // Sidechain Compression Ducking
+        if (this.sidechainGain && vel > 0.55) {
+          const duckDepth = isHeavy ? 0.52 : (weight === 'punchy' ? 0.64 : 0.76);
           this.sidechainGain.gain.cancelScheduledValues(time);
           this.sidechainGain.gain.setValueAtTime(1.0, time);
           this.sidechainGain.gain.linearRampToValueAtTime(duckDepth, time + 0.016);
-          this.sidechainGain.gain.exponentialRampToValueAtTime(1.0, time + 0.21);
+          this.sidechainGain.gain.exponentialRampToValueAtTime(1.0, time + 0.22);
         }
 
         this.lastKickVisualPulse = 1.0;
       }
 
-      // --- CRISP, PUNCHY LOFI SNARE / RIMSHOT ---
       playSnare(time, vel, kit, weight) {
         if (!this.ctx) return;
         const punchMul = weight === 'heavy' ? 1.25 : 1.05;
 
-        // 1. Fundamental Drum Shell Body
-        const body1 = this.ctx.createOscillator();
-        const body2 = this.ctx.createOscillator();
-        const bGain = this.ctx.createGain();
-        body1.type = 'triangle';
-        body2.type = 'sine';
+        if (kit === 'punchyChillhop') {
+          // Acoustic Wooden Rimshot
+          const rim = this.ctx.createOscillator();
+          const rGain = this.ctx.createGain();
+          rim.type = 'triangle';
+          rim.frequency.setValueAtTime(1150, time);
+          rim.frequency.exponentialRampToValueAtTime(420, time + 0.025);
 
-        const f1 = kit === 'brushGroove' ? 290 : 205;
-        body1.frequency.setValueAtTime(f1, time);
-        body1.frequency.exponentialRampToValueAtTime(102, time + 0.075);
+          rGain.gain.setValueAtTime(0.0001, time);
+          rGain.gain.linearRampToValueAtTime(vel * 0.16 * punchMul, time + 0.002);
+          rGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.065);
 
-        body2.frequency.setValueAtTime(f1 * 1.55, time);
-        body2.frequency.exponentialRampToValueAtTime(145, time + 0.05);
+          const rNoise = this.ctx.createBufferSource();
+          rNoise.buffer = this.whiteNoiseBuffer;
+          const rnFilt = this.ctx.createBiquadFilter();
+          rnFilt.type = 'highpass';
+          rnFilt.frequency.value = 3500;
+          const rnGain = this.ctx.createGain();
+          rnGain.gain.setValueAtTime(vel * 0.08, time);
+          rnGain.exponentialRampToValueAtTime(0.0001, time + 0.035);
 
-        bGain.gain.setValueAtTime(0.0001, time);
-        bGain.gain.linearRampToValueAtTime(vel * 0.13 * punchMul, time + 0.004);
-        bGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.10);
+          rim.connect(rGain);
+          rGain.connect(this.drumBus);
+          rNoise.connect(rnFilt);
+          rnFilt.connect(rnGain);
+          rnGain.connect(this.drumBus);
 
-        body1.connect(bGain);
-        body2.connect(bGain);
-        bGain.connect(this.drumBus);
-        body1.start(time);
-        body2.start(time);
-        body1.stop(time + 0.11);
-        body2.stop(time + 0.11);
+          rim.start(time);
+          rNoise.start(time);
+          rim.stop(time + 0.07);
+          rNoise.stop(time + 0.04);
 
-        // 2. Crisp Vinyl Snare Wires / Snap
-        const noise = this.ctx.createBufferSource();
-        noise.buffer = this.whiteNoiseBuffer;
+        } else if (kit === 'brushGroove' || kit === 'jazzRideKit') {
+          // Authentic Brushed Jazz Snare Sweep
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = this.whiteNoiseBuffer;
+          const bp = this.ctx.createBiquadFilter();
+          bp.type = 'bandpass';
+          bp.frequency.value = 2400;
+          bp.Q.value = 0.85;
 
-        const bp = this.ctx.createBiquadFilter();
-        bp.type = 'bandpass';
-        bp.frequency.value = kit === 'heavyBoombap' ? 1850 : 1550;
-        bp.Q.value = 0.75;
+          const nGain = this.ctx.createGain();
+          nGain.gain.setValueAtTime(0.0001, time);
+          nGain.gain.linearRampToValueAtTime(vel * 0.11 * punchMul, time + 0.015);
+          nGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.16);
 
-        const lp = this.ctx.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.frequency.value = 4600;
+          noise.connect(bp);
+          bp.connect(nGain);
+          nGain.connect(this.drumBus);
+          noise.start(time);
+          noise.stop(time + 0.18);
 
-        const nGain = this.ctx.createGain();
-        const snapDur = kit === 'heavyBoombap' ? 0.17 : 0.14;
-        nGain.gain.setValueAtTime(0.0001, time);
-        nGain.gain.linearRampToValueAtTime(vel * 0.12 * punchMul, time + 0.004);
-        nGain.gain.exponentialRampToValueAtTime(0.0001, time + snapDur);
+        } else if (kit === 'bedroomLofi') {
+          // Bedroom Finger Snap + Soft Rim
+          const snap = this.ctx.createBufferSource();
+          snap.buffer = this.whiteNoiseBuffer;
+          const snapF = this.ctx.createBiquadFilter();
+          snapF.type = 'bandpass';
+          snapF.frequency.value = 2400;
+          snapF.Q.value = 2.2;
+          const snapG = this.ctx.createGain();
+          snapG.gain.setValueAtTime(vel * 0.14 * punchMul, time);
+          snapG.gain.exponentialRampToValueAtTime(0.0001, time + 0.035);
 
-        noise.connect(bp);
-        bp.connect(lp);
-        lp.connect(nGain);
-        nGain.connect(this.drumBus);
-        noise.start(time);
-        noise.stop(time + snapDur + 0.02);
+          snap.connect(snapF);
+          snapF.connect(snapG);
+          snapG.connect(this.drumBus);
+          snap.start(time);
+          snap.stop(time + 0.04);
+
+        } else {
+          // Heavy Boom-Bap & SP-404 Acoustic Snare Shell + Wires
+          const body1 = this.ctx.createOscillator();
+          const bGain = this.ctx.createGain();
+          body1.type = 'triangle';
+          const f1 = kit === 'heavyBoombap' ? 195 : 215;
+          body1.frequency.setValueAtTime(f1, time);
+          body1.frequency.exponentialRampToValueAtTime(105, time + 0.075);
+
+          bGain.gain.setValueAtTime(0.0001, time);
+          bGain.gain.linearRampToValueAtTime(vel * 0.14 * punchMul, time + 0.004);
+          bGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.11);
+
+          body1.connect(bGain);
+          bGain.connect(this.drumBus);
+          body1.start(time);
+          body1.stop(time + 0.12);
+
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = this.whiteNoiseBuffer;
+          const bp = this.ctx.createBiquadFilter();
+          bp.type = 'bandpass';
+          bp.frequency.value = kit === 'heavyBoombap' ? 1850 : 1600;
+          bp.Q.value = 0.8;
+
+          const nGain = this.ctx.createGain();
+          const snapDur = kit === 'heavyBoombap' ? 0.18 : 0.14;
+          nGain.gain.setValueAtTime(0.0001, time);
+          nGain.gain.linearRampToValueAtTime(vel * 0.13 * punchMul, time + 0.004);
+          nGain.gain.exponentialRampToValueAtTime(0.0001, time + snapDur);
+
+          noise.connect(bp);
+          bp.connect(nGain);
+          nGain.connect(this.drumBus);
+          noise.start(time);
+          noise.stop(time + snapDur + 0.02);
+        }
       }
 
-      // --- SWUNG LOFI HI-HATS & OPEN HATS ---
       playHiHat(time, vel, isOpen = false) {
         if (!this.ctx) return;
         const noise = this.ctx.createBufferSource();
@@ -1279,15 +2331,15 @@
 
         const hp = this.ctx.createBiquadFilter();
         hp.type = 'highpass';
-        hp.frequency.value = 4200;
+        hp.frequency.value = 4600;
 
         const lp = this.ctx.createBiquadFilter();
         lp.type = 'lowpass';
-        lp.frequency.value = 8200;
+        lp.frequency.value = 8500;
 
         const g = this.ctx.createGain();
-        const dur = isOpen ? 0.21 : 0.048;
-        const peak = isOpen ? vel * 0.065 : vel * 0.052;
+        const dur = isOpen ? 0.22 : 0.048;
+        const peak = isOpen ? vel * 0.068 : vel * 0.052;
         g.gain.setValueAtTime(0.0001, time);
         g.gain.linearRampToValueAtTime(peak, time + 0.003);
         g.gain.exponentialRampToValueAtTime(0.0001, time + dur);
@@ -1300,6 +2352,49 @@
         noise.stop(time + dur + 0.015);
       }
 
+      playShaker(time, vel) {
+        if (!this.ctx) return;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = this.whiteNoiseBuffer;
+
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 3400;
+        bp.Q.value = 1.6;
+
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(0.0001, time);
+        g.gain.linearRampToValueAtTime(vel * 0.038, time + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.06);
+
+        noise.connect(bp);
+        bp.connect(g);
+        g.connect(this.drumBus);
+        noise.start(time);
+        noise.stop(time + 0.07);
+      }
+
+      playRide(time, vel) {
+        if (!this.ctx) return;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = this.whiteNoiseBuffer;
+
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 6500;
+
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(0.0001, time);
+        g.gain.linearRampToValueAtTime(vel * 0.032, time + 0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+
+        noise.connect(hp);
+        hp.connect(g);
+        g.connect(this.drumBus);
+        noise.start(time);
+        noise.stop(time + 0.35);
+      }
+
       // --- SEQUENCER ---
       start(song) {
         this.initAudio();
@@ -1307,8 +2402,9 @@
         if (!this.currentSong) return;
 
         this.isPlaying = true;
+        this.updateAmbienceForSong(this.currentSong);
         if (this.ambienceGain) {
-          this.ambienceGain.gain.setTargetAtTime(0.015, this.ctx.currentTime, 0.2);
+          this.ambienceGain.gain.setTargetAtTime(0.016, this.ctx.currentTime, 0.2);
         }
         if (this.stepTimer) clearTimeout(this.stepTimer);
         this.scheduleStep();
@@ -1356,12 +2452,23 @@
         const now = this.ctx.currentTime + 0.025;
         const section = getSectionForBar(bar, song.totalBars);
 
-        // Smoothly glide warm filter cutoff for section contrast (e.g. muffled breakdown vs bright chorus)
+        // Update tempo-synced delay time (dotted eighth)
+        if (step === 0 && this.delayNode) {
+          this.delayNode.delayTime.setValueAtTime(beatSec * 0.75, now);
+        }
+
+        // Section lowpass filter sweep
         if (step === 0 && this.warmFilter) {
           this.warmFilter.frequency.setTargetAtTime(section.filterHz, now, 0.6);
         }
 
-        // Select harmonic progression for this section (Main A, Chorus A+, or Bridge B)
+        // Procedural ambient clicks/raindrops
+        if (song.ambientType === 'vinylDust' && Math.random() < 0.28) {
+          this.playVinylDustPop(now + Math.random() * 0.1);
+        } else if (song.ambientType === 'rain' && Math.random() < 0.22) {
+          this.playRainDrop(now + Math.random() * 0.1);
+        }
+
         const chordIdx = bar % 4;
         const chordSet = section.prog === 'B'
           ? song.voicedChordsB
@@ -1380,20 +2487,18 @@
         const isHeavyBass = (song.drumWeight === 'heavy' || section.drums === 'grooveB');
         const playBass =
           (step === 0) ||
-          (song.bassStyle === 'walking' && (step === 4 || step === 8 || step === 12)) ||
-          (song.bassStyle === 'syncopated' && (step === 6 || step === 10 || (section.drums === 'grooveB' && step === 14))) ||
-          (song.bassStyle === 'melodicBounce' && (step === 8 || step === 11 || step === 14)) ||
-          (song.bassStyle === 'halfTime' && step === 8);
+          (song.bassInst === 'uprightJazz' && (step === 4 || step === 8 || step === 12)) ||
+          (step === 6 || step === 10 || (section.drums === 'grooveB' && step === 14));
 
         if (playBass && section.name !== 'OUTRO') {
           let bMidi = activeChord.bassMidi;
-          if (step === 8 && song.bassStyle !== 'deepSub') bMidi += 7;
+          if (step === 8 && song.bassInst !== 'sub808') bMidi += 7;
           else if (step === 11 || step === 12) bMidi += 5;
           else if (step === 14) bMidi += 12;
-          this.playBassVoice(bMidi, now, step === 0 ? beatSec * 1.5 : beatSec * 0.7, isHeavyBass);
+          this.playBassVoice(bMidi, now, step === 0 ? beatSec * 1.5 : beatSec * 0.7, song.bassInst, isHeavyBass);
         }
 
-        // 3. Trigger Heavy Lofi Drums & Turnaround Fills
+        // 3. Trigger Drums & Percussion
         const isTurnaroundBar = (bar % 4 === 3);
         if (section.drums === 'grooveA' || section.drums === 'grooveB') {
           const useB = (section.drums === 'grooveB');
@@ -1405,7 +2510,6 @@
             this.playKick(now, kPat[step], song.drumWeight, song.drumKit);
           }
           if (sPat[step] > 0) {
-            // Laid-back Dilla snare micro-delay on beats 2 & 4
             const late = (step === 4 || step === 12) ? 0.013 : 0;
             this.playSnare(now + late, sPat[step], song.drumKit, song.drumWeight);
           }
@@ -1414,10 +2518,21 @@
             this.playHiHat(now, hPat[step], isOpen);
           }
 
-          // 4-Bar & 8-Bar Turnaround Drum Fills!
+          // Shaker
+          if (song.hasShaker) {
+            const shPat = useB ? song.shakerB : song.shakerA;
+            if (shPat[step] > 0) this.playShaker(now, shPat[step]);
+          }
+
+          // Ride Cymbal
+          if (song.hasRide) {
+            const rPat = useB ? song.rideB : song.rideA;
+            if (rPat[step] > 0) this.playRide(now, rPat[step]);
+          }
+
+          // Turnaround Fills
           if (isTurnaroundBar && step >= 12) {
             if (bar % 8 === 7) {
-              // 8-bar signature snare + kick drop fill
               if (step === 13 || step === 15) {
                 this.playSnare(now, 0.55 + (step - 12) * 0.1, song.drumKit, song.drumWeight);
               }
@@ -1429,18 +2544,15 @@
             }
           }
         } else if (section.drums === 'intro') {
-          // Intro: sparse hi-hats, then drum pickup fill on Bar 3 (end of 4-bar intro)
           if (step % 4 === 0) this.playHiHat(now, 0.45, false);
           if (bar === 3 && step === 0) this.playKick(now, 0.75, song.drumWeight, song.drumKit);
           if (bar === 3 && (step === 12 || step === 14 || step === 15)) {
             this.playSnare(now, 0.5 + (step - 11) * 0.12, song.drumKit, song.drumWeight);
           }
         } else if (section.drums === 'breakdown') {
-          // Breakdown: deep heartbeat kick on beat 1 and soft rim/hat on beat 3
           if (step === 0) this.playKick(now, 0.72, 'cozy', song.drumKit);
           if (step === 8) this.playHiHat(now, 0.4, true);
           if (bar === 41 && step >= 12 && step % 2 === 0) {
-            // Fill leading into Final Chorus!
             this.playSnare(now, 0.7, song.drumKit, song.drumWeight);
           }
         } else if (section.drums === 'outro') {
@@ -1448,7 +2560,7 @@
           if (step === 4 || step === 12) this.playHiHat(now, 0.35, false);
         }
 
-        // 4. Trigger Lead Melody Theme (Verse vs Chorus vs Bridge Solo)
+        // 4. Trigger Lead Melody Theme
         const globalStep64 = (chordIdx * 16) + step;
         let melBank = null;
         if (section.melody === 'verse') melBank = song.melodyVerse;
@@ -1468,7 +2580,7 @@
           );
         }
 
-        // 5. Trigger Secondary Counter-Melody Instrument (active in Chorus I, Bridge, Final Chorus)
+        // 5. Trigger Secondary Counter-Melody Instrument
         if (section.counter && song.counterMelody[globalStep64]) {
           const cCell = song.counterMelody[globalStep64];
           this.playMelodyVoice(
@@ -1481,17 +2593,17 @@
           );
         }
 
-        // 6. Trigger Delicate Arpeggio
+        // 6. Trigger Distinct Arpeggio
         const arpCell = song.arpSteps[step];
         if (section.arp && arpCell) {
           const note = activeChord.midiNotes[arpCell.voiceIdx % activeChord.midiNotes.length] + 12;
-          this.playArpVoice(Math.min(82, note), now);
+          this.playArpVoice(Math.min(84, note), now, song.arpInst);
         }
 
         // Update Minimal UI
         updateMinimalProgressUI(step, bar, activeChord.name, section.name);
 
-        // Advance Step & Bar across the 2–3 Minute Song
+        // Advance Step & Bar
         this.currentStep++;
         if (this.currentStep >= 16) {
           this.currentStep = 0;
@@ -1540,8 +2652,9 @@
 
       const cName = INST_NAMES[song.chordInst] || song.chordInst;
       const lName = INST_NAMES[song.leadInst] || song.leadInst;
+      const bName = BASS_NAMES[song.bassInst] || song.bassInst;
       const dName = INST_NAMES[song.drumKit] || song.drumKit;
-      document.getElementById('songInstrumentLabel').textContent = `${cName} · ${lName} · ${dName}`;
+      document.getElementById('songInstrumentLabel').textContent = `${cName} · ${lName} · ${bName} · ${dName}`;
     }
 
     function updateMinimalProgressUI(step, bar, chordName, sectionName) {
